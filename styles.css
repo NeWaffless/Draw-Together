@@ -1,0 +1,7 @@
+#pad-frame{
+    border: solid;
+    border-width: 5px;
+    border-color: purple;
+    width: 500px;
+    height: 500px;
+}
