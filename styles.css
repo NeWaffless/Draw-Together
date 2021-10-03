@@ -1,7 +1,111 @@
-#pad-frame{
+/*
+    TODO
+    ~ background button changes colour
+    ~ background button dropdown (maybe sidebar for testing?)
+    ~ brush, eraser onhover
+
+
+*/
+
+
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 36px;
+}
+
+body {
+    background-color: #FAF4F4;
+}
+
+header {
+    padding-top: 20px;
+    padding-left: 100px;
+}
+
+main {
+    margin: 20px;
+}
+
+#pad-frame {
     border: solid;
     border-width: 5px;
     border-color: purple;
-    width: 700px;
-    height: 700px;
+    width: 620px;
+    height: 620px;
+}
+
+#button-bar {
+    height: 620px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-left: 80px;
+    margin-right: 0;
+}
+
+button {
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #008CBA;
+    border: none;
+    border-radius: 100px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#undo-button, #background-button, #finish-button {
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+    width: 280px;
+    height: 80px;
+}
+
+
+#brush-button, #eraser-button {
+    background-color: transparent;
+}
+
+#undo-button {
+    background-color: #D7C9C9;
+    color: #443E3E;
+}
+
+#undo-img {
+    margin-right: 30px;
+    vertical-align: middle;
+}
+
+#undo-button:hover {
+    background-color: pink;
+}
+
+#undo-button:active {
+    background-color: #CDCDCD;
+}
+
+#background-button:hover {
+    opacity: 80%;
+}
+
+#finish-button {
+    background-color: #353641;
+    color: #FAF4F4;
+}
+
+#finish-button:hover {
+    background-color: grey;
+}
+
+#finish-button:active {
+    background-color: black;
 }
