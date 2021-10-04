@@ -1,10 +1,15 @@
-
-
 // ---------------------- TODO ---------------------- //
+
+
 /*
     refactor this shit
     fix undo with background
+    threshold function
+    assign shaded version of colours to css
+    link to Figma on clicking Finish
 */
+
+
 // ---------------------- END TODO ---------------------- //
 
 
@@ -12,7 +17,6 @@
 let drawing;
 const canvasWidth = document.getElementById('pad-frame').offsetWidth - 9;
 const canvasHeight = document.getElementById('pad-frame').offsetHeight - 9;
-
 
 // history <- used for undo
 let history;
@@ -58,7 +62,9 @@ let brush = {
 
 // background
 let bgCol = [255, 255, 255, 255];
-let bgColInd = 0;
+let bgMainInd = 0;
+let bgShadeInd = 0;
+let newBGInd = 0;
 
 
 // ---------------------- TESTING VARIABLES ---------------------- //
@@ -72,33 +78,75 @@ let undoClicked = false;
 let backgroundChangeClicked = false;
 let saveClicked = false;
 
-document.getElementById('brush-button').onclick = function() {
+const brushButton = document.getElementById('brush-button');
+const eraserButton = document.getElementById('eraser-button');
+const bgButton = document.getElementById('background-button');
+
+function brushButtonEvent() {
     brush.type = BrushType.Brush;
     brush.size = 10;
-};
-document.getElementById('eraser-button').onclick = function() {
-    brush.type = BrushType.Eraser;
-    brush.size = 20;
-};
-document.getElementById('undo-button').onclick = function() {undoClicked = true};
-document.getElementById('background-button').onclick = function() {backgroundChangeClicked = true};
-document.getElementById('finish-button').onclick = function() {saveClicked = true};
 
+    brushButton.style.marginLeft = '0';
+    eraserButton.style.marginLeft = 'auto';
+};
+
+function eraserButtonEvent() {
+    brush.type = BrushType.Eraser;
+    brush.size = 30;
+
+    brushButton.style.marginLeft = 'auto';
+    eraserButton.style.marginLeft = '0';
+};
+
+function undoButtonEvent() {
+    undoClicked = true
+}
+
+function bgButtonEvent() {
+    // move this code, it should be occur in this script
+    let backgroundColoursStyle = document.getElementById("background-colours").style;
+    if(backgroundColoursStyle.display == "none" || backgroundColoursStyle.display == "") {
+        backgroundColoursStyle.display = "inline-block";
+    } else {
+        backgroundColoursStyle.display = "none";
+    }
+};
+
+function colourChange(newColInd) {
+    if(newColInd != bgMainInd) {
+        backgroundChangeClicked = true;
+        newBGInd = newColInd;
+        // possibly remove <- based on user testing
+        bgButtonEvent();
+    }
+}
+
+function finishButtonEvent() {
+    saveClicked = true;
+}
 
 
 function drawpad(p) {
+    function colToString(col) {
+        return 'rgb(' + col[0].toString() + ',' + col[1].toString() + ',' + col[2].toString() + ')';
+    }
+
     function canvasSetup() {
         p.createCanvas(canvasWidth , canvasHeight); // preferably adjust to div
         drawing = p.createGraphics(canvasWidth, canvasHeight);
 
         // pick colour randomly here
-        bgColInd = Math.floor(Math.random() * mainColours) * shades + Math.floor(Math.random() * shades);
-        bgCol = colours[allColours[bgColInd]];
+        bgMainInd = Math.floor(Math.random() * mainColours);
+        newBGInd = bgMainInd;
+        bgShadeInd = Math.floor(Math.random() * shades);
+        bgCol = colours[allColours[(bgMainInd * shades) + bgShadeInd]];
 
         p.background(bgCol);
         p.noStroke();
         drawing.background(bgCol);
         drawing.strokeWeight(brush.size);
+        
+        bgButton.style.backgroundColor = colToString(bgCol);
     }
 
     function historySetup() {
@@ -135,7 +183,7 @@ function drawpad(p) {
             undoClicked = false;
         }
         if(backgroundChangeClicked) {
-            newBackground();
+            newBackground(newBGInd);
             backgroundChangeClicked = false;
         }
         if(saveClicked) {
@@ -203,16 +251,19 @@ function drawpad(p) {
         drawing.updatePixels();
     }
     
-    function newBackground() {
+    function newBackground(newInd) {
         // put background selection
             // either dropdown
             // button that scrolls through colours
-        bgColInd = (bgColInd + 1) % allColours.length;
+        if(newInd < 0 || newInd > 4) return;
+        if(bgMainInd == newInd) return;
+        bgMainInd = newInd;
         
-        // bgColInd = Math.floor(Math.random() * mainColours) * shades + Math.floor(Math.random() * shades);
-        bgCol = colours[allColours[bgColInd]];
+        bgCol = colours[allColours[(bgMainInd * shades) + bgShadeInd]];
         recolourErasedPixels();
         backgroundToCopy.background(bgCol);
+
+        bgButton.style.backgroundColor = colToString(bgCol);
     }
 
     function saveDrawing() {
@@ -227,13 +278,6 @@ function drawpad(p) {
             history.add();
             history.arr[history.ptr] = drawing.get(); // passing drawing into a function doesn't work because :shrug:
             incHistory = false;
-        }
-    }
-
-    p.keyPressed = function() {
-        // replace with button
-        if(p.keyCode == p.LEFT_ARROW) {
-            undo();
         }
     }
 }

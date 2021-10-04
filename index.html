@@ -3,29 +3,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DECO3200-A2-Drawpad</title>
+    <title>Your drawing space 😊</title>
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript" src="libraries/p5/p5.js"></script>
 </head>
 
 <body>
     <header>
-        ENTER YOUR PROMPT HERE
+        What is your favourite sea animal?
     </header>
     <main style="display: flex;">
         <section id="pad-frame"></section>
         <section id="button-bar">
-            <button type="button" id="brush-button">
-                <img src="assets/Pencil.svg" alt="Pencil tool" id="brush-img" width="240px" height="95px">
+            <button type="button" id="brush-button" onclick="brushButtonEvent()">
+                <img src="assets/Pencil.svg" alt="Pencil tool" id="brush-img" width="217px" height="89px">
             </button>
-            <button type="button" id="eraser-button">
+            <button type="button" id="eraser-button" onclick="eraserButtonEvent()">
                 <img src="assets/Eraser.svg" alt="Eraser tool" id="eraser-img" width="217px" height="89px">
             </button>
-            <button type="button" id="undo-button">
+            <button type="button" id="undo-button" onclick="undoButtonEvent()">
                 <img src="assets/Undo.svg" alt="Undo button" id="undo-img" width="38px" height="38px">Undo
             </button>
-            <button type="button" id="background-button">Background</button>
-            <button type="button" id="finish-button">Finish</button>
+            <button type="button" id="background-button" onclick="bgButtonEvent()">Background</button>
+            <!-- in a perfect world, these colours are programatically assigned
+                current hardcoded numbers
+                inflexible if colours change -->
+            <ul id="background-colours">
+                <li class="bg-colour" id="pink" onclick="colourChange(0)"></li>
+                <li class="bg-colour" id="red" onclick="colourChange(1)"></li>
+                <li class="bg-colour" id="yellow" onclick="colourChange(2)"></li>
+                <li class="bg-colour" id="green" onclick="colourChange(3)"></li>
+                <li class="bg-colour" id="blue" onclick="colourChange(4)"></li>
+            </ul>
+            <a id="finish-button" href="https://www.figma.com/proto/NORN2XJnlP1m3fjahNHojW/NARWhal-Assessment-2?page-id=224%3A13995&node-id=363%3A15912&viewport=241%2C48%2C0.13&scaling=scale-down&starting-point-node-id=363%3A15912&show-proto-sidebar=1"
+                    target="_blank" rel="noopener noreferrer" onclick="finishButtonEvent()"><p>Finish</p></a>
         </section>
     </main>
     <script src="scripts/HistoryBuffer.js"></script>

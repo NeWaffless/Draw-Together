@@ -1,9 +1,5 @@
 /*
     TODO
-    ~ background button changes colour
-    ~ background button dropdown (maybe sidebar for testing?)
-    ~ brush, eraser onhover
-
 
 */
 
@@ -23,7 +19,9 @@ body {
 
 header {
     padding-top: 20px;
-    padding-left: 100px;
+    padding-left: 20px;
+    width: 620px;
+    text-align: center;
 }
 
 main {
@@ -48,12 +46,12 @@ main {
     margin-right: 0;
 }
 
-button {
+button, #finish-button {
     margin-left: auto;
     margin-right: 0;
     margin-top: 20px;
     margin-bottom: 20px;
-    background-color: #008CBA;
+    background-color: rgb(251, 181, 206);
     border: none;
     border-radius: 100px;
     color: black;
@@ -73,6 +71,11 @@ button {
 
 #brush-button, #eraser-button {
     background-color: transparent;
+}
+
+
+#brush-button {
+    margin-left: 0;
 }
 
 #undo-button {
@@ -97,13 +100,58 @@ button {
     opacity: 80%;
 }
 
+#background-colours {
+    list-style-type: none;
+    display: none;
+}
+
+#background-colours > li {
+    display: inline-block;
+    padding: 20px;
+    margin: 3px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: padding 0.15s ease-in-out, margin 0.15s ease-in-out;
+}
+
+#background-colours > li:hover {
+    padding: 23px;
+    margin: 0;
+}
+
+#pink {
+    background-color: rgb(251, 181, 206);
+}
+
+#red {
+    background-color: rgb(249, 124, 124);
+}
+
+#yellow {
+    background-color: rgb(246, 196, 81);
+}
+
+#green {
+    background-color: rgb(58, 160, 117);
+}
+
+#blue {
+    background-color: rgb(105, 158, 221);
+}
+
 #finish-button {
     background-color: #353641;
     color: #FAF4F4;
+    margin-bottom: 0;
+}
+
+#finish-button > p {
+    position: relative;
+    top: 25%;
 }
 
 #finish-button:hover {
-    background-color: grey;
+    opacity: 80%;
 }
 
 #finish-button:active {
