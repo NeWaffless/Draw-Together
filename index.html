@@ -1,47 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Your drawing space 😊</title>
-    <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="libraries/p5/p5.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Draw together 😊</title>
+    <link rel="stylesheet" href="/styling/styles.css">
 </head>
 
 <body>
-    <header>
-        AAAAAAAAAAAAAAAAAAAAAAA
-    </header>
-    <main style="display: flex;">
-        <section id="pad-frame"></section>
-        <section id="button-bar">
-            <button type="button" id="brush-button" onclick="brushButtonEvent()">
-                <img src="assets/Pencil.svg" alt="Pencil tool" id="brush-img" width="217px" height="89px">
-            </button>
-            <button type="button" id="eraser-button" onclick="eraserButtonEvent()">
-                <img src="assets/Eraser.svg" alt="Eraser tool" id="eraser-img" width="217px" height="89px">
-            </button>
-            <button type="button" id="undo-button" onclick="undoButtonEvent()">
-                <img src="assets/Undo.svg" alt="Undo button" id="undo-img" width="38px" height="38px">Undo
-            </button>
-            <button type="button" id="background-button" onclick="bgButtonEvent()">Background</button>
-            <!-- in a perfect world, these colours are programatically assigned
-                current hardcoded numbers
-                inflexible if colours change -->
-            <ul id="background-colours">
-                <li class="bg-colour" id="pink" onclick="colourChange(0)"></li>
-                <li class="bg-colour" id="red" onclick="colourChange(1)"></li>
-                <li class="bg-colour" id="yellow" onclick="colourChange(2)"></li>
-                <li class="bg-colour" id="green" onclick="colourChange(3)"></li>
-                <li class="bg-colour" id="blue" onclick="colourChange(4)"></li>
-            </ul>
-            <a id="finish-button" href="https://www.figma.com/proto/NORN2XJnlP1m3fjahNHojW/NARWhal-Assessment-2?page-id=224%3A13995&node-id=701%3A13210&viewport=241%2C48%2C0.13&scaling=scale-down&starting-point-node-id=701%3A13210&show-proto-sidebar=1"
-                    target="_blank" rel="noopener noreferrer" onclick="finishButtonEvent()"><p>Finish</p></a>
-        </section>
-    </main>
-    <script src="libraries/image-to-base64/image-to-base64.min.js"></script>
-    <script src="scripts/HistoryBuffer.js"></script>
-    <script src="scripts/drawpad.js"></script>
+    <h1>
+        Login page
+    </h1>
+    <body>
+        <form>
+            <label for="User ID">USER ID</label><br>
+            <input type="text" id="uid" name="uid"><br>
+        </form>
+        <a href="/pages/drawpad.html">Continue</a>
+
+        <!-- <img src=""/> -->
+    </body>
 </body>
 
 </html>

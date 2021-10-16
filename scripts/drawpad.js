@@ -6,12 +6,14 @@
     fix undo with background
     threshold function
     assign shaded version of colours to css
-    link to Figma on clicking Finish
+    determine whether variables should be global or not!!
+        i.e. localise all these variables (this is seriously bad XD)
+
+    check whether server is open to request
 */
 
 
 // ---------------------- END TODO ---------------------- //
-
 
 // canvas
 let drawing;
@@ -69,7 +71,9 @@ let newBGInd = 0;
 
 // ---------------------- TESTING VARIABLES ---------------------- //
 
-
+// const currUID = 'waffl';
+const currUID = 'testUID';
+let drawingAsString = null;
 
 // ---------------------- END TESTING VARIABLES ---------------------- //
 
@@ -121,8 +125,31 @@ function colourChange(newColInd) {
     }
 }
 
-function finishButtonEvent() {
-    saveClicked = true;
+async function finishButtonEvent() {
+    if(!drawingAsString) {
+        // button should be grey here
+        console.log("No lines drawn");
+        return;
+    }
+
+    const dataToSend = {
+        uid: currUID,
+        drawStr: drawingAsString
+    };
+
+    const options = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataToSend)
+    };
+
+    const serverResponse = await fetch('/finish', options);
+    const result = await serverResponse.json();
+    if(result.status === 'success') {
+        window.location.href = "final_jigsaw.html";
+    }
 }
 
 
@@ -186,10 +213,6 @@ function drawpad(p) {
             newBackground(newBGInd);
             backgroundChangeClicked = false;
         }
-        if(saveClicked) {
-            saveDrawing();
-            saveClicked = false;
-        }
     }
 
     function mouseOnCanvas() {
@@ -201,7 +224,7 @@ function drawpad(p) {
     }
 
     function brushTypeAdjustments() {
-        currCol = brush.colour;
+        let currCol = brush.colour;
         if(brush.type == BrushType.Eraser) {
             currCol = bgCol;
         }
@@ -218,7 +241,7 @@ function drawpad(p) {
         if(p.mouseIsPressed && p.mouseButton == p.LEFT) {
             drawing.strokeWeight(brush.size);
             drawing.line(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
-            if(incHistory != true && mouseOnCanvas()) {
+            if(!incHistory && mouseOnCanvas()) {
                 incHistory = true;
             }
         }
@@ -270,7 +293,9 @@ function drawpad(p) {
         p.background(bgCol);
         backgroundToCopy.background(bgCol);
         p.image(drawing, 0, 0);
-        p.saveCanvas(drawing, 'my_drawing', 'png');
+        drawingAsString = p.canvas.toDataURL();
+
+        // p.saveCanvas(drawing, 'my_drawing', 'png');
     }
 
     p.mouseReleased = function() {
@@ -278,6 +303,8 @@ function drawpad(p) {
             history.add();
             history.arr[history.ptr] = drawing.get(); // passing drawing into a function doesn't work because :shrug:
             incHistory = false;
+
+            saveDrawing();
         }
     }
 }
