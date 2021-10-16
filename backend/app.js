@@ -10,6 +10,8 @@ app.use(express.json({limit: '1mb'}));
 const database = new Datastore('database.db');
 database.loadDatabase();
 
+const imgFolder = './img_strings/';
+
 
 app.listen(port, () => {
   console.log(`Example app listening at port localhost:${port}`)
@@ -17,6 +19,9 @@ app.listen(port, () => {
 
 app.use(express.static('../'));
 
+if(!Filesystem.existsSync(imgFolder)) {
+  Filesystem.mkdirSync(imgFolder);
+}
 
 function createFile(newPath, data) {
   Filesystem.appendFile(newPath, data, (err) => {
@@ -25,16 +30,17 @@ function createFile(newPath, data) {
   });
 }
 
+// change '/finish' to something more meaningful
 app.post('/finish', (request, response) => {
 
   console.log('Request from:  ' + request.body.uid);
   const data = request.body;
 
-  let newPath = './img_strings/' + data.uid + '.txt';
+  let newPath = imgFolder + data.uid + '.txt';
 
   // system for waffl user <- effectively infinite drawings
   if(data.uid === "waffl") {
-    newPath = './img_strings/' + data.uid + '_' + Math.floor(Math.random() * 1000000).toString() + '.txt';
+    newPath = imgFolder + data.uid + '_' + Math.floor(Math.random() * 1000000).toString() + '.txt';
     createFile(newPath, data.drawStr);
     response.json({status: 'success'});
 
