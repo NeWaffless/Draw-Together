@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- 
+    TODO:
+    testUID / user id
+ -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Draw together 😊</title>
-    <link rel="stylesheet" href="/styling/styles.css">
+    <link rel="stylesheet" href="/styling/index_styles.css">
 </head>
 
 <body>
     <h1>
         Login page
     </h1>
-    <body>
-        <form>
-            <label for="User ID">USER ID</label><br>
-            <input type="text" id="uid" name="uid"><br>
-        </form>
-        <a href="/pages/drawpad.html">Continue</a>
 
-        <!-- <img src=""/> -->
-    </body>
+    <input type="text" id="uid" name="uid" required minlength="5" maxlength="5"><br>
+    <button type="button" id="uid-submit" onclick="submitClicked()">Submit</button>
+    <!-- <a href="/pages/drawpad.html">Continue</a> -->
+
+    <script src="/scripts/IndexForm.js"></script>
 </body>
 
 </html>
