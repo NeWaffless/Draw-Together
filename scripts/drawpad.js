@@ -134,7 +134,8 @@ async function finishButtonEvent() {
 
     const dataToSend = {
         uid: currUID,
-        drawStr: drawingAsString
+        drawStr: drawingAsString,
+        col: (mainColours * bgMainInd) + (shades * bgShadeInd)
     };
 
     const options = {

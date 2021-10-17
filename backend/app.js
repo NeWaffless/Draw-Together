@@ -1,12 +1,21 @@
 const express = require('express');
 const Datastore = require('nedb');
-const Filesystem = require('fs');
+const fs = require('fs');
+
+
 
 /*
 TODO ~
   - change strings to formated strings
-  - rearrange posts to make logical order
+  - rearrange functions to make logical order
+  - review how status' are sent through promises
+    - integers, and maybe status is returned as part of the promise alongside / as part of the response?
+  - optimise reading a writing files
+  - rename Datastore to db
 */
+
+
+
 const app = express();
 const port = 3000;
 app.use(express.json({limit: '1mb'}));
@@ -14,7 +23,7 @@ app.use(express.json({limit: '1mb'}));
 const db = new Datastore('database.db');
 db.loadDatabase();
 
-const imgFolder = './img_strings/';
+const imgFolder = './user_imgs/';
 
 
 app.listen(port, () => {
@@ -23,14 +32,13 @@ app.listen(port, () => {
 
 app.use(express.static('../'));
 
-if(!Filesystem.existsSync(imgFolder)) {
-  Filesystem.mkdirSync(imgFolder);
+if(!fs.existsSync(imgFolder)) {
+  fs.mkdirSync(imgFolder);
 }
 
 function createFile(newPath, data) {
-  Filesystem.appendFile(newPath, data, (err) => {
-    if (err) throw err;
-    console.log("Created file -- " + newPath);
+  fs.writeFile(newPath, JSON.stringify(data), 'utf8', (fsErr) => {
+    if(fsErr) throw fsErr;
   });
 }
 
@@ -40,17 +48,17 @@ app.post('/finish', (request, response) => {
   console.log('Request from:  ' + request.body.uid);
   const data = request.body;
 
-  let newPath = imgFolder + data.uid + '.txt';
+  let newPath = imgFolder + data.uid + '.json';
 
   // system for waffl user <- effectively infinite drawings
   if(data.uid === "waffl") {
-    newPath = imgFolder + data.uid + '_' + Math.floor(Math.random() * 1000000).toString() + '.txt';
+    newPath = imgFolder + data.uid + '_' + Math.floor(Math.random() * 1000000).toString() + '.json';
     createFile(newPath, data.drawStr);
     response.json({status: 'success'});
 
   } else {
-    if(!Filesystem.existsSync(newPath)) {
-      createFile(newPath, data.drawStr);
+    if(!fs.existsSync(newPath)) {
+      createFile(newPath, {drawStr: data.drawStr, col: data.col});
 
       response.json({status: 'success'});
     } else {
@@ -60,22 +68,28 @@ app.post('/finish', (request, response) => {
   }
 });
 
-
 app.post('/jigsaw', (request, response) => {
   console.log('\nRequest to receive image');
 
-  Filesystem.readFile(imgFolder + request.body.uid + '.txt', 'utf8' , (err, data) => {
+  fs.readFile(imgFolder + request.body.uid + '.json', 'utf8' , (err, data) => {
     if (err) throw err;
+    const drawing = JSON.parse(data);
     response.json({
       status: 'success',
-      drawStr: data
+      data: drawing
     });
   });  
 });
 
-app.post('/uidCheck', (request, response) => {
+app.post('/login', (request, response) => {
   db.find({uid:request.body.uid}, function (err, res) {
+    if(err) throw err;
     if(res.length > 0) {
+      fs.writeFile('curr_uid.json', JSON.stringify(res[0]), 'utf8', (fsErr) => {
+        if(fsErr) throw fsErr;
+      });
+
+
       response.json({
         status: 'success'
       });
@@ -86,3 +100,6 @@ app.post('/uidCheck', (request, response) => {
     }
   });
 });
+
+// get uid
+// app.get('/uid')

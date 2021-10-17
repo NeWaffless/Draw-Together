@@ -1,9 +1,11 @@
 const uidElement = document.getElementById('uid');
 const uidSubmit = document.getElementById('uid-submit');
 
-function submitClicked() {
-    console.log(uidElement.value);
-}
+/*
+TODO ~
+  - check if user is currently logged in
+    - run immediately upon start up
+*/
 
 async function checkUID() {
     const data = {uid:uidElement.value};
@@ -14,15 +16,23 @@ async function checkUID() {
         },
         body: JSON.stringify(data)
     };
-    const contact = await fetch('/uidCheck', options);
+    const contact = await fetch('/login', options);
     const result = await contact.json();
     
-    console.log(result);
+    if(result.status === 'success') {
+        window.location.href = "/pages/drawpad.html";
+    }
+}
+
+
+function submitClicked() {
+    checkUID();
 }
 
 const inputHandler = function(e) {
     if(uidElement.value.length === 5) {
-        checkUID();
+        // change button clickability
+        // update button visuals
     }
 }
 

@@ -16,7 +16,7 @@ async function getDrawings() {
     const result = await serverContact.json();
 
     if(result.status === 'success') {
-        document.getElementById('testUID-drawing').src = result.drawStr;
+        document.getElementById('testUID-drawing').src = result.data.drawStr;
     }
 }
 
