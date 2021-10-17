@@ -2,13 +2,17 @@ const express = require('express');
 const Datastore = require('nedb');
 const Filesystem = require('fs');
 
-
+/*
+TODO ~
+  - change strings to formated strings
+  - rearrange posts to make logical order
+*/
 const app = express();
 const port = 3000;
 app.use(express.json({limit: '1mb'}));
 
-const database = new Datastore('database.db');
-database.loadDatabase();
+const db = new Datastore('database.db');
+db.loadDatabase();
 
 const imgFolder = './img_strings/';
 
@@ -60,11 +64,25 @@ app.post('/finish', (request, response) => {
 app.post('/jigsaw', (request, response) => {
   console.log('\nRequest to receive image');
 
-  Filesystem.readFile('./img_strings/' + request.body.uid + '.txt', 'utf8' , (err, data) => {
+  Filesystem.readFile(imgFolder + request.body.uid + '.txt', 'utf8' , (err, data) => {
     if (err) throw err;
     response.json({
       status: 'success',
       drawStr: data
     });
   });  
+});
+
+app.post('/uidCheck', (request, response) => {
+  db.find({uid:request.body.uid}, function (err, res) {
+    if(res.length > 0) {
+      response.json({
+        status: 'success'
+      });
+    } else {
+      response.json({
+        status: 'could not find'
+      });
+    }
+  });
 });
