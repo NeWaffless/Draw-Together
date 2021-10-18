@@ -10,6 +10,8 @@
         i.e. localise all these variables (this is seriously bad XD)
 
     check whether server is open to request
+    move todo inline
+    make get request into an external file for reuse
 */
 
 
@@ -70,9 +72,25 @@ let newBGInd = 0;
 
 
 // ---------------------- TESTING VARIABLES ---------------------- //
+let currUID = null;
+function getUID() {
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    fetch('/uid', options).then(function(res) {
+        res.json().then(function(res) {
+            currUID = res.uid;
+        });
+    }, function(err) {
+        throw err;
+    });
 
-// const currUID = 'waffl';
-const currUID = 'testUID';
+    return -1;
+}
+getUID();
 let drawingAsString = null;
 
 // ---------------------- END TESTING VARIABLES ---------------------- //
@@ -130,12 +148,15 @@ async function finishButtonEvent() {
         // button should be grey here
         console.log("No lines drawn");
         return;
+    } else if (currUID === null) {
+        console.log("No user id");
+        return;
     }
 
     const dataToSend = {
         uid: currUID,
         drawStr: drawingAsString,
-        col: (mainColours * bgMainInd) + (shades * bgShadeInd)
+        col: (bgMainInd * shades) + bgShadeInd
     };
 
     const options = {

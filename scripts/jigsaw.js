@@ -1,23 +1,29 @@
-const uidObj = {
-    uid: 'testUID'
-};
+/*
+    TODO ~
+    - change variable names in function call to represent purpose
+    - order drawing presentation (storing drawings with uid?)
+    - get current users drawing to make it stand out / animate in
+*/
+
+const grid = document.getElementById('img-grid');
 
 async function getDrawings() {
     // probably change this to GET
         // receive all drawings
     const options = {
-        method: 'POST',
+        method: 'GET',
         headers: {
             "Content-Type": "application/json"
-        },
-        body: JSON.stringify(uidObj)
+        }
     };
-    const serverContact = await fetch('/jigsaw', options);
+    const serverContact = await fetch('/drawings', options);
     const result = await serverContact.json();
 
-    if(result.status === 'success') {
-        document.getElementById('testUID-drawing').src = result.data.drawStr;
-    }
+    result.forEach(drawing => {
+        const node = document.createElement('img');
+        node.src = drawing.drawStr;
+        grid.appendChild(node);
+    });
 }
 
 getDrawings();

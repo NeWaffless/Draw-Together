@@ -24,6 +24,7 @@ const db = new Datastore('database.db');
 db.loadDatabase();
 
 const imgFolder = './user_imgs/';
+const uidPath = 'curr_uid.json';
 
 
 app.listen(port, () => {
@@ -37,7 +38,7 @@ if(!fs.existsSync(imgFolder)) {
 }
 
 function createFile(newPath, data) {
-  fs.writeFile(newPath, JSON.stringify(data), 'utf8', (fsErr) => {
+  fs.writeFileSync(newPath, JSON.stringify(data), 'utf8', (fsErr) => {
     if(fsErr) throw fsErr;
   });
 }
@@ -45,7 +46,7 @@ function createFile(newPath, data) {
 // change '/finish' to something more meaningful
 app.post('/finish', (request, response) => {
 
-  console.log('Request from:  ' + request.body.uid);
+  console.log('Drawing submission request from:  ' + request.body.uid);
   const data = request.body;
 
   let newPath = imgFolder + data.uid + '.json';
@@ -58,7 +59,7 @@ app.post('/finish', (request, response) => {
 
   } else {
     if(!fs.existsSync(newPath)) {
-      createFile(newPath, {drawStr: data.drawStr, col: data.col});
+      createFile(newPath, {col: data.col, drawStr: data.drawStr});
 
       response.json({status: 'success'});
     } else {
@@ -68,24 +69,24 @@ app.post('/finish', (request, response) => {
   }
 });
 
-app.post('/jigsaw', (request, response) => {
-  console.log('\nRequest to receive image');
+app.get('/drawings', (req, res) => {
+  console.log('\nRequest to receive images');
+  let drawings = [];
+  fs.readdirSync(imgFolder).forEach(file => {
+    drawings.push(JSON.parse(fs.readFileSync(imgFolder + file, 'utf8')));
+  });
+  
+  console.log('Finished reading all files');
+  console.log(drawings.length);
 
-  fs.readFile(imgFolder + request.body.uid + '.json', 'utf8' , (err, data) => {
-    if (err) throw err;
-    const drawing = JSON.parse(data);
-    response.json({
-      status: 'success',
-      data: drawing
-    });
-  });  
+  res.send(drawings);
 });
 
 app.post('/login', (request, response) => {
   db.find({uid:request.body.uid}, function (err, res) {
     if(err) throw err;
     if(res.length > 0) {
-      fs.writeFile('curr_uid.json', JSON.stringify(res[0]), 'utf8', (fsErr) => {
+      fs.writeFileSync(uidPath, JSON.stringify(res[0]), 'utf8', (fsErr) => {
         if(fsErr) throw fsErr;
       });
 
@@ -102,4 +103,9 @@ app.post('/login', (request, response) => {
 });
 
 // get uid
-// app.get('/uid')
+app.get('/uid', (req, res) => {
+  fs.readFile(uidPath, 'utf8', (fsErr, data) => {
+    if(fsErr) throw fsErr;
+    res.send(data);
+  });
+});
