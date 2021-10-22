@@ -54,7 +54,7 @@ app.post('/finish', (request, response) => {
   // system for waffl user <- effectively infinite drawings
   if(data.uid === "waffl") {
     newPath = imgFolder + data.uid + '_' + Math.floor(Math.random() * 1000000).toString() + '.json';
-    createFile(newPath, data.drawStr);
+    createFile(newPath, {col: data.col, drawStr: data.drawStr});
     response.json({status: 'success'});
 
   } else {

@@ -4,6 +4,7 @@
 /*
     refactor this shit
     fix undo with background
+        changing background not recognised with undo
     threshold function
     assign shaded version of colours to css
     determine whether variables should be global or not!!
