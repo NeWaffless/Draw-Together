@@ -17,7 +17,6 @@ let drawings = [];
 
 function createGrid() {
     const gridSize = Math.ceil(Math.sqrt(drawings.length));
-    console.log(Math.sqrt(drawings.length));
     const total = drawings.length;
     const width = 110;
     const height = 110;
@@ -91,6 +90,12 @@ async function getDrawings() {
     createGrid();
 }
 
-getDrawings();
+// getDrawings();
 
 
+const grid = new JigsawGrid(8);
+for(let i = 5; i <= 16; i++) {
+    console.log(grid.gridPos(i));
+}
+
+// console.log(grid.gridPos(8));
