@@ -7,9 +7,8 @@ todo:
     - make drawings append outwards
     - make 4 black tiles in centre squares
     - stop appending drawings once all drawings are placed
+    - rename test grid
 */
-
-// const grid = document.getElementById('img-grid');
 
 const jigsawTemplatePath = '../assets/jigsaw_pieces/';
 const drawingPath = '../backend/user_imgs/';
@@ -91,12 +90,73 @@ async function getDrawings() {
 
 // getDrawings();
 
+const red = 'rgb(255, 0, 0)';
+const green = 'rgb(0, 255, 0)';
 
-const grid = new JigsawGrid(8);
-for(let i = 5; i <= 16; i++) {
-    // console.log(grid.gridPos(i));
-    console.log(i);
-    console.log(grid.gridPosInDir(i, Direction.UP), grid.gridPosInDir(i, Direction.RIGHT), grid.gridPosInDir(i, Direction.DOWN), grid.gridPosInDir(i, Direction.LEFT));
+const size = 36;
+const width = 110;
+const height = 110;
+
+const grid = new JigsawGrid(size);
+for(let i = 1; i <= size; i++) {
+    let pos = grid.gridPos(i);
+
+    const piece = document.createElement('div');
+    piece.className += "jigsaw-piece";
+    piece.style.width = `${width}px`;
+    piece.style.height = `${height}px`;
+
+    if(pos[1] > 0) pos[1] -= 1;
+    pos[0] *= -1;
+    if(pos[0] > 0) pos[0] -= 1;
+    piece.style.top = `${(pos[0] * height)}px`;
+    piece.style.left = `${(pos[1] * width)}px`;
+    
+    // used for visual testing
+    // const r = Math.floor(Math.random() * 256);
+    // const g = Math.floor(Math.random() * 256);
+    // const b = Math.floor(Math.random() * 256);
+    // piece.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    piece.style.backgroundColor = green;
+
+    const text = document.createElement('h1');
+    text.innerHTML = `${i}`;
+
+    piece.appendChild(text);
+    grid.addToGrid(i, piece);
+    document.getElementById('test-grid').appendChild(piece);
 }
 
-// console.log(grid.gridPosInDir(5, Direction.UP));
+
+// used for demonstrative purposes
+let cursor = 1;
+grid.grid[cursor].style.backgroundColor = red;
+document.onkeydown = function(e) {
+    let dir;
+    switch(e.key) {
+        case 'w':
+            dir = Direction.UP;
+            break;
+        case 'd':
+            dir = Direction.RIGHT;
+            break;
+        case 's':
+            dir = Direction.DOWN;
+            break;
+        case 'a':
+            dir = Direction.LEFT;
+            break;
+        default:
+            console.log(e.key);
+            break;
+    }
+    const temp = cursor;
+    cursor = grid.gridPosInDir(cursor, dir);
+    if(cursor < grid.grid.length) {
+        grid.grid[temp].style.backgroundColor = green;
+        grid.grid[cursor].style.backgroundColor = red;
+    }  else {
+        cursor = temp;
+    }
+}
+

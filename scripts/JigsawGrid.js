@@ -163,12 +163,12 @@ class JigsawGrid {
         // case going from max to min
         if(n === this.ringMax(n) && (d === Direction.UP || d === Direction.RIGHT)) {
             if(d === Direction.UP) return (Math.sqrt(n) - 2) ** 2 + 1;
-            return (Math.sqrt(n) - 4) ** 2 + 1;
+            return n - Math.abs(16 * this.ring(n) -1);
 
         // case going from min to max
         } else if(n === this.ringMin(n) && (d === Direction.DOWN || d === Direction.LEFT)) {
             if(d === Direction.DOWN) return (Math.sqrt(n - 1) + 2) ** 2;
-            return (Math.sqrt(n - 1) + 4) ** 2;
+            return n + Math.abs(16 * ringInc - 1);
 
         // case direction perpendicular to quad away from centre
         } else if(perpToQuad(1)) {
@@ -197,6 +197,10 @@ class JigsawGrid {
             return n + inc;
         }
         
+    }
+
+    addToGrid(n, content) {
+        this.grid[n] = content;
     }
 
     // appendDrawing(drawing) {
