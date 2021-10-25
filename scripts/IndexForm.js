@@ -2,7 +2,7 @@ const uidElement = document.getElementById('uid');
 const uidSubmit = document.getElementById('uid-submit');
 
 /*
-TODO ~
+todo:
   - check if user is currently logged in
     - run immediately upon start up
 */

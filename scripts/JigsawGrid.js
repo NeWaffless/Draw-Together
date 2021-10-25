@@ -1,8 +1,9 @@
 /*
-    todo
+todo:
     - error checking
     - methods may not need to be static
-    - determine if magic numbers can be removed
+    - dtry to refactor out magic numbers
+    - check where returning should be - 1 for array index
 */
 
 // first four puzzle pieces reserved for prompts
@@ -26,8 +27,13 @@ class JigsawGrid {
     // initialises grid size equal to ring max
     createGrid() {
         // note, does not fill with null values
-        this.grid.length += this.ringMax(this.size);
+        // +1 because arithmetic on a grid indexing from 1 is much simpler than indexing from 0
+        this.grid.length += this.ringMax(this.size) + 1;
     }
+
+    // addRing() {
+
+    // }
 
     // finds next largest even square number >= a number
         // symbolises the maximum value in a ring of the grid
@@ -55,20 +61,8 @@ class JigsawGrid {
 
     // --- helper functions ---
 
-    getRing(n) {
+    ring(n) {
         return (Math.sqrt(this.ringMax(n)) - 2) / 2;
-    }
-
-    getQuadSize(n) {
-        return 2 * (this.getRing(n) + 1);
-    }
-
-    getLocalMin(n, d) {
-        return this.ringMin(n) + d * (this.getQuadSize(n) - 1);
-    }
-
-    getLocalMax(n, d) {
-        return this.ringMin(n) + (d + 1) * (this.getQuadSize(n) - 1);
     }
 
     // returns side of the ring a number is on
@@ -76,7 +70,7 @@ class JigsawGrid {
         // side is selected to make quadrants even
     quadrant(n) {        
         for(let i = 0; i < Object.keys(Direction).length; i++) {
-            if(n >= this.getLocalMin(n, i) && n < this.getLocalMax(n, i)) {
+            if(n >= this.quadMin(n, i) && n < this.quadMax(n, i)) {
                 return i;
             }
         }
@@ -84,13 +78,25 @@ class JigsawGrid {
         throw new Error(`Could not find a quadrant for ${n}?!`);
     }
 
+    quadSize(n) {
+        return 2 * (this.ring(n) + 1);
+    }
+
+    quadMin(n, d) {
+        return this.ringMin(n) + d * (this.quadSize(n) - 1);
+    }
+
+    quadMax(n, d) {
+        return this.ringMin(n) + (d + 1) * (this.quadSize(n) - 1);
+    }
+
     // returns grid locations specific to defined grid setup
         // review documentation for visualised grid setup
     gridPos(n) {
-        const ring = this.getRing(n);
+        const ring = this.ring(n);
         const quad = this.quadrant(n);
-        const lmin = this.getLocalMin(n, quad);
-        const lmax = this.getLocalMax(n, quad);
+        const lmin = this.quadMin(n, quad);
+        const lmax = this.quadMax(n, quad);
         let row, col, a;
 
         // if n < half of row / col, determine val based on min
@@ -118,9 +124,80 @@ class JigsawGrid {
         return [row, col];
     }
 
-    // arrayPosInDir(n, d) {
+    // returns the array position of the grid position in a direction from a point
+    gridPosInDir(n, d) {
+        // todo: this was done without thought, check to see what should be returned here
+        if(n === 0) return n;
 
-    // }
+        const ringInc = this.ring(n) + 1;
+        const pos = this.gridPos(n);
+        const x = pos[0];
+        const y = pos[1];
+
+        const quad = this.quadrant(n);
+        let inc = 1;
+
+        const perpToQuad = function(perpDir) {
+            let flip = 0;
+            if(perpDir < 0) flip = 2;
+    
+            if(
+                (x === ringInc && d === 0 + flip)
+                || (x === -ringInc && d === 2 - flip)
+                || (y === ringInc && d === 1 + flip)
+                || (y === -ringInc && d === 3 - flip)
+            ) {
+                return true;
+            }
+            return false;
+        }
+
+        const isCorner = function () {
+            if(Math.abs(x) + Math.abs(y) === 2 * ringInc) return true;
+            return false;
+        }
+
+        // note, there is likely a more elegant way to perform this with function pointers
+            // oh how I wish I could write elegant js
+
+        // case going from max to min
+        if(n === this.ringMax(n) && (d === Direction.UP || d === Direction.RIGHT)) {
+            if(d === Direction.UP) return (Math.sqrt(n) - 2) ** 2 + 1;
+            return (Math.sqrt(n) - 4) ** 2 + 1;
+
+        // case going from min to max
+        } else if(n === this.ringMin(n) && (d === Direction.DOWN || d === Direction.LEFT)) {
+            if(d === Direction.DOWN) return (Math.sqrt(n - 1) + 2) ** 2;
+            return (Math.sqrt(n - 1) + 4) ** 2;
+
+        // case direction perpendicular to quad away from centre
+        } else if(perpToQuad(1)) {
+            return n + (8 * ringInc) + (2 * d) - 3;
+
+        // case direction perpendicular to quad toward centre (does not apply to corners)
+        } else if(perpToQuad(-1) && !isCorner()) {
+            if(d === Direction.RIGHT) d = Direction.LEFT;
+            else d = Math.abs(d - 2); 
+            return n - (8 * this.ring(n)) - (2 * d) + 3;
+
+        // case moving forward or backward along array
+        } else if(isCorner()) {
+            if(
+                (d % 2 !== 0 && quad % 2 !== 0)
+                || (d % 2 === 0 && quad % 2 === 0)
+            ) inc = -1;
+            
+            return n + inc;
+        } else {
+            inc = d;
+            if(inc % 2 === 0) inc += 1;
+            inc = -(inc - 2);
+            if(quad === Direction.RIGHT || quad === Direction.DOWN) inc *= -1;
+
+            return n + inc;
+        }
+        
+    }
 
     // appendDrawing(drawing) {
 

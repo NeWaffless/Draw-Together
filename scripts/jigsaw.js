@@ -1,5 +1,5 @@
 /*
-    TODO ~
+todo:
     - change variable names in function call to represent purpose
     - order drawing presentation (storing drawings with uid?)
     - get current users drawing to make it stand out / animate in
@@ -17,7 +17,6 @@ let drawings = [];
 
 function createGrid() {
     const gridSize = Math.ceil(Math.sqrt(drawings.length));
-    const total = drawings.length;
     const width = 110;
     const height = 110;
 
@@ -95,7 +94,9 @@ async function getDrawings() {
 
 const grid = new JigsawGrid(8);
 for(let i = 5; i <= 16; i++) {
-    console.log(grid.gridPos(i));
+    // console.log(grid.gridPos(i));
+    console.log(i);
+    console.log(grid.gridPosInDir(i, Direction.UP), grid.gridPosInDir(i, Direction.RIGHT), grid.gridPosInDir(i, Direction.DOWN), grid.gridPosInDir(i, Direction.LEFT));
 }
 
-// console.log(grid.gridPos(8));
+// console.log(grid.gridPosInDir(5, Direction.UP));
