@@ -18,22 +18,13 @@ const Direction = {
 
 class JigsawGrid {
     constructor(size) {
-        this.grid = [];
-        this.size = size + prompt;
-
-        this.createGrid();
-    }
-
-    // initialises grid size equal to ring max
-    createGrid() {
-        // note, does not fill with null values
         // +1 because arithmetic on a grid indexing from 1 is much simpler than indexing from 0
-        this.grid.length += this.ringMax(this.size) + 1;
+        this.size = size + prompt + 1;
+        this.grid = [];
+
+        // does not fill with null values
+        this.grid.length += this.size;
     }
-
-    // addRing() {
-
-    // }
 
     // finds next largest even square number >= a number
         // symbolises the maximum value in a ring of the grid
