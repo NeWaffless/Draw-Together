@@ -171,7 +171,7 @@ async function finishButtonEvent() {
     const serverResponse = await fetch('/finish', options);
     const result = await serverResponse.json();
     if(result.status === 'success') {
-        window.location.href = "final_jigsaw.html";
+        window.location.href = "jigsaw.html";
     }
 }
 

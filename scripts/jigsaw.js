@@ -4,7 +4,9 @@ todo:
     - order drawing presentation (storing drawings with uid?)
     - get current users drawing to make it stand out / animate in
     - rename test grid
-    - refine the parseInt and define compared to width
+    - fix puzzle piece gaps (little slithers of white)
+    - fix puzzle piece sizing and ratio
+    - add radix to parseInt
 */
 
 const jigsawTemplatePath = '../assets/jigsaw_pieces/';
@@ -17,9 +19,6 @@ function createGrid() {
 
     const jigsaw = new JigsawGrid(drawings.length);
     for(let i = 1; i < jigsaw.grid.length; i++) {
-
-
-        // todo: place prompt pieces
         // todo: convert pos to x,y
 
         const piece = document.createElement('div');
@@ -27,14 +26,16 @@ function createGrid() {
         piece.style.width = `${width}px`;
         piece.style.height = `${height}px`;
 
-        let pos = jigsaw.gridPos(i);
+        const pos = jigsaw.gridPos(i);
+        let x = pos[0];
+        let y = pos[1];
         // x,y position math because the grid does not contain a 0 row or col
-        if(pos[1] > 0) pos[1] -= 1;
-        pos[0] *= -1;
-        if(pos[0] > 0) pos[0] -= 1;
+        if(y > 0) y -= 1;
+        x *= -1;
+        if(x > 0) x -= 1;
 
-        piece.style.top = `${(pos[0] * height)}px`;
-        piece.style.left = `${(pos[1] * width)}px`;
+        piece.style.top = `${(x * height)}px`;
+        piece.style.left = `${(y * width)}px`;
         
         let col = 'blk';
         if(i > prompt) {
@@ -60,11 +61,10 @@ function createGrid() {
         template.style.height = `${(height + parseInt(height / 10))}px`;
 
         piece.appendChild(template);
-        document.getElementById('test-grid').appendChild(piece);
 
         // todo: maybe change this so that it does not store the html element, and instead the json contained at the html
         jigsaw.addToGrid(i, piece);
-        document.getElementById('test-grid').appendChild(piece);
+        document.getElementById('jigsaw').appendChild(piece);
 
     }
 
@@ -130,7 +130,7 @@ for(let i = 1; i <= size; i++) {
 
     piece.appendChild(text);
     grid.addToGrid(i, piece);
-    document.getElementById('test-grid').appendChild(piece);
+    document.getElementById('jigsaw').appendChild(piece);
 }
 
 

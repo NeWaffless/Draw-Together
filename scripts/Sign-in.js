@@ -20,7 +20,7 @@ async function checkUID() {
     const result = await contact.json();
     
     if(result.status === 'success') {
-        window.location.href = "/pages/drawpad.html";
+        window.location.href = "/pages/prompt.html";
     }
 }
 
@@ -37,4 +37,3 @@ const inputHandler = function(e) {
 }
 
 uidElement.addEventListener('input', inputHandler);
-// source.addEventListener('propertychange', inputHandler);

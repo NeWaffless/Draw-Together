@@ -5,15 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Draw together 😊</title>
-    <link rel="stylesheet" href="../styling/styles.css">
+    <title>Time to draw ✏️</title>
+    <link rel="stylesheet" href="../styling/drawpad_styling.css">
     <script src="../libraries/p5.min.js"></script>
 </head>
 
 <body>
-    <header>
-        PROMPT GOES HERE
-    </header>
+    <header>What is your favourite sea animal?</header>
+    
     <main style="display: flex;">
         <section id="pad-frame"></section>
         <section id="button-bar">
@@ -27,9 +26,7 @@
                 <img src="../assets/Undo.svg" alt="Undo button" id="undo-img" width="38px" height="38px">Undo
             </button>
             <button type="button" id="background-button" onclick="bgButtonEvent()">Background</button>
-            <!-- in a perfect world, these colours are programatically assigned
-                current hardcoded numbers
-                inflexible if colours change -->
+            <!-- todo: change background colour based on shade -->
             <ul id="background-colours">
                 <li class="bg-colour" id="pink" onclick="colourChange(0)"></li>
                 <li class="bg-colour" id="red" onclick="colourChange(1)"></li>
@@ -37,20 +34,14 @@
                 <li class="bg-colour" id="green" onclick="colourChange(3)"></li>
                 <li class="bg-colour" id="blue" onclick="colourChange(4)"></li>
             </ul>
-            <!-- <a id="finish-button" href="https://www.figma.com/proto/NORN2XJnlP1m3fjahNHojW/NARWhal-Assessment-2?page-id=224%3A13995&node-id=701%3A13210&viewport=241%2C48%2C0.13&scaling=scale-down&starting-point-node-id=701%3A13210&show-proto-sidebar=1"
-                    target="_blank" rel="noopener noreferrer" onclick="finishButtonEvent()"><p>Finish</p></a> -->
             <button type="button" id="finish-button" onclick="finishButtonEvent()">
                 Finish
             </button>
-
-            <!-- <button type="button" id="finish-button" onclick="window.location.href='final_jigsaw.html'">
-                To Jigsaw
-            </button> -->
         </section>
     </main>
 
     <script src="../scripts/HistoryBuffer.js"></script>
-    <script src="../scripts/drawpad.js"></script>
+    <script src="../scripts/Drawpad.js"></script>
 </body>
 
 </html>
