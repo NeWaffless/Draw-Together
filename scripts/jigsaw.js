@@ -96,10 +96,11 @@ getDrawings();
 
 
 /*
+
 const red = 'rgb(255, 0, 0)';
 const green = 'rgb(0, 255, 0)';
 
-const size = 53;
+const size = 36;
 const width = 110;
 const height = 110;
 
@@ -167,3 +168,4 @@ document.onkeydown = function(e) {
 }
 
 */
+

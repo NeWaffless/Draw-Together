@@ -6,15 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Welcome to Draw together 😊</title>
-    <link rel="stylesheet" href="../styling/jigsaw_styling.css">
+    <link rel="stylesheet" href="../styling/onboarding_styling.css">
 </head>
 
 <body>
-    <h1>Onboarding</h1>
-    
-    <!-- Change elements in page, not page itself -->
-    <p>Flexible elements, button going to next section</p>
+    <main>
+        <img src="" id="onboarding-img">
+        <p id="welcome">Welcome to <b>Draw Together!</b></p>
+        <p id="main-text">In this app, you get to draw<br>whatever you want.</p>
+        <ul id="onboarding-progress">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </main>
+
+    <div id="next-button" onclick="next()">
+        <b>Next</b> <img src="../assets/Arrow.svg" id="arrow">
+    </div>
+
     <a href="sign-in.html">TO SIGN-IN</a>
+
+    <script>
+        // todo: turn this image num into onboarding num, and assign all factors within function
+        let imgNum = 1;
+
+        function assignImgPath() {
+            document.getElementById('onboarding-img').src = `../assets/onboarding/pool-${imgNum}.jpg`;
+        }
+
+        function next() {
+            imgNum++;
+            assignImgPath();
+            // change img source
+            // remove welcome
+            // change text
+            // change nth-of-type here
+            // if last screen
+                // append get started button
+                // hide next button
+        }
+
+        assignImgPath();
+    </script>
 </body>
 
 </html>

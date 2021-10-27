@@ -6,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Welcome to Draw together 😊</title>
-    <link rel="stylesheet" href="../styling/jigsaw_styling.css">
+    <link rel="stylesheet" href="../styling/index_styling.css">
 </head>
 
-<body>
-    <h1>Logo sting</h1>
-    
-    <p>Code that tranisitions screen after a moment</p>
-    <a href="/pages/onboarding.html">TO ONBOARDING</a>
+<body onload="setTimeout(loadNextPage, 7000)">
+    <img src="assets/Logo.svg" id="logo">
+
+    <script>
+        function loadNextPage() {
+            window.location.href = "/pages/onboarding.html";
+        }
+    </script>
 </body>
 
 </html>
