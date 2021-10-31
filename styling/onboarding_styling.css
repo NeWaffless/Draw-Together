@@ -1,3 +1,13 @@
+/*
+todo:
+- Have the content in the middle of the screen stay fairly still
+    - Image size does not shift around the progress bar
+- Get started button outline?? (where does it come from)
+- Maybe make progress bar out of 3 and remove for final page
+*/
+
+
+
 * {
     font-family:Arial, Helvetica, sans-serif;
 }
@@ -29,6 +39,7 @@ main {
 #main-text {
     font-size: 150%;
     padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 #onboarding-progress {
@@ -45,10 +56,6 @@ main {
     border-radius: 100%;
 }
 
-#onboarding-progress > li:nth-of-type(1) {
-    opacity: 100%;
-}
-
 #next-button {
     position: absolute;
     bottom: 10%;
@@ -56,7 +63,41 @@ main {
     font-size: 150%;
 }
 
+#next-button:hover {
+    cursor: pointer;
+}
+
 #arrow {
     width: 20%;
     height: 20%;
+}
+
+#get-started {
+    background-color: #353641;
+    color: #FAF4F4;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 20px 40px 20px 40px;
+    border-radius: 100px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.2s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 40px;
+}
+
+#get-started > p {
+    position: relative;
+    top: 25%;
+}
+
+#get-started:hover {
+    opacity: 80%;
+}
+
+#get-started:active {
+    background-color: black;
 }

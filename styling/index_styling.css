@@ -16,7 +16,7 @@ body {
 
     opacity: 0;
     animation-name: logoFade;
-    animation-duration: 7s;
+    animation-duration: 6s;
 }
 
 @keyframes logoFade {

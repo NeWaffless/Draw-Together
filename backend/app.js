@@ -5,13 +5,14 @@ const fs = require('fs');
 
 
 /*
-TODO ~
+todo:
   - change strings to formated strings
   - rearrange functions to make logical order
   - review how status' are sent through promises
     - integers, and maybe status is returned as part of the promise alongside / as part of the response?
   - optimise reading a writing files
   - rename Datastore to db
+  - add Keagan Parker to db
 */
 
 

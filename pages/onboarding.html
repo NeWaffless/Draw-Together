@@ -9,11 +9,16 @@
     <link rel="stylesheet" href="../styling/onboarding_styling.css">
 </head>
 
+<!-- 
+todo:
+- maybe make progress bar positioned absolutely
+ -->
+
 <body>
     <main>
         <img src="" id="onboarding-img">
         <p id="welcome">Welcome to <b>Draw Together!</b></p>
-        <p id="main-text">In this app, you get to draw<br>whatever you want.</p>
+        <p id="main-text"></p>
         <ul id="onboarding-progress">
             <li></li>
             <li></li>
@@ -23,32 +28,54 @@
     </main>
 
     <div id="next-button" onclick="next()">
-        <b>Next</b> <img src="../assets/Arrow.svg" id="arrow">
+        <b>Next</b>  <img src="../assets/Arrow.svg" id="arrow">
     </div>
 
-    <a href="sign-in.html">TO SIGN-IN</a>
-
     <script>
-        // todo: turn this image num into onboarding num, and assign all factors within function
-        let imgNum = 1;
+        let onboardingPage = 0;
 
-        function assignImgPath() {
-            document.getElementById('onboarding-img').src = `../assets/onboarding/pool-${imgNum}.jpg`;
+        const mainText = [
+            "In this app, you get to draw<br>whatever you want.",
+            "Once you finish your<br>drawing, it will be placed in a<br>jigsaw puzzle.",
+            "All of your class mates<br>drawings will be there too!",
+            "You are all set! Press the button<br>below to start drawing!"
+        ];
+
+        function nextImg() {
+            const img = document.getElementById('onboarding-img');
+            img.src = `../assets/onboarding/onboarding-student-${onboardingPage}.png`;
+            if(onboardingPage == 2) {
+                img.style.width = "50%";
+                img.style.height = "50%";
+            }
         }
 
+        // yes, there are magic numbers and hard coded page values
+            // no, I'm not using an enum or changing these to be separate pages because it looks much cleaner like this
         function next() {
-            imgNum++;
-            assignImgPath();
-            // change img source
-            // remove welcome
-            // change text
-            // change nth-of-type here
-            // if last screen
-                // append get started button
-                // hide next button
+            onboardingPage++;
+            nextImg();
+            document.getElementById('main-text').innerHTML = mainText[onboardingPage - 1];
+            
+            document.querySelectorAll('li')[onboardingPage - 1].style.opacity = "100%";
+            if(onboardingPage > 1) document.querySelectorAll('li')[onboardingPage - 2].style.opacity = "30%";
+            
+            if(onboardingPage == 2) document.getElementById('welcome').remove();
+            if(onboardingPage == 4) {
+                document.getElementById('next-button').remove();
+
+                const getStarted = document.createElement('button');
+                getStarted.setAttribute("id", "get-started");
+                getStarted.type = "button";
+                getStarted.innerHTML = "Get Started";
+                getStarted.onclick = function() {window.location.href = "sign-in.html";};
+
+                const mainTextElement = document.getElementById('main-text');
+                mainTextElement.parentNode.insertBefore(getStarted, mainTextElement.nextSibling);
+            }
         }
 
-        assignImgPath();
+        next();
     </script>
 </body>
 

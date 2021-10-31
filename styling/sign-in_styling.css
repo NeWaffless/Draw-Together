@@ -1,0 +1,116 @@
+/* 
+todo:
+- reposition back button
+    - also make it more flexible
+- multicolour border for input field
+*/
+
+* {
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #FAF4F4;
+}
+
+#back-button {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    font-size: 150%;
+}
+
+#back-button:hover {
+    cursor: pointer;
+}
+
+#arrow {
+    width: 20%;
+    height: 20%;
+    transform: rotate(180deg);
+}
+
+main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#top-text {
+    font-size: 200%;
+    margin: 0;
+    padding: 0;
+}
+
+#instructions {
+    font-size: 150%;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+#uid {
+    border-color: #353641;
+    border-radius: 30px;
+    border-width: 3px;
+    width: 70%;
+    padding: 15px 0px 15px 0px;
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+#uid::placeholder {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: normal;
+}
+
+#uid-submit {
+    font-weight: bold;
+    font-size: 24px;
+    padding: 15px 50px 15px 50px;
+    border-radius: 100px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: all 0.2s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 40px;
+}
+
+#uid-submit > p {
+    position: relative;
+    top: 25%;
+}
+
+/* 
+These allow the submit button to change styling flexibly with a class
+Primarily used because js cannot change the css :hover property for DOM elements
+*/
+
+main > button {
+    background-color: #D0BCBC;
+    color: #9B7D7D;
+}
+
+main > button:hover {
+    opacity: 100%;
+    cursor: default;
+}
+
+.submitHover {
+    background-color: #353641;
+    color: #FAF4F4;
+}
+
+.submitHover:hover {
+    opacity: 80%;
+    cursor: pointer;
+}

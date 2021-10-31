@@ -15,12 +15,18 @@
 </head>
 
 <body>
-    <h1>
-        Sign-in page
-    </h1>
 
-    <input type="text" id="uid" name="uid" required minlength="5" maxlength="5"><br>
-    <button type="button" id="uid-submit" onclick="submitClicked()">Submit</button>
+    <div id="back-button" onclick="back()">
+        <img src="../assets/Arrow.svg" id="arrow">  <strong>Back</strong>
+    </div>
+
+    <main>
+        <p id="top-text"><strong>Let's get started!</strong></p>
+        <p id="instructions">Enter your student code below.</p>
+
+        <input type="text" id="uid" name="uid" required minlength="5" maxlength="5" placeholder="Enter student code"><br>
+        <button type="button" id="uid-submit" onclick="">Continue</button>
+    </main>
 
     <script src="../scripts/Sign-in.js"></script>
 </body>

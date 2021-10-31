@@ -3,12 +3,13 @@ const uidSubmit = document.getElementById('uid-submit');
 
 /*
 todo:
-  - check if user is currently logged in
+- check if user is currently logged in
     - run immediately upon start up
+- user feedback for bad input
 */
 
 async function checkUID() {
-    const data = {uid:uidElement.value};
+    const data = {uid:uidElement.value.toLowerCase()};
     const options = {
         method: 'POST',
         headers: {
@@ -21,18 +22,20 @@ async function checkUID() {
     
     if(result.status === 'success') {
         window.location.href = "/pages/prompt.html";
+    } else {
+        console.log("Invalid login");
     }
-}
-
-
-function submitClicked() {
-    checkUID();
 }
 
 const inputHandler = function(e) {
     if(uidElement.value.length === 5) {
-        // change button clickability
-        // update button visuals
+        uidSubmit.onclick = function() { checkUID(); };
+        uidSubmit.classList.add("submitHover");
+    } else {
+        uidSubmit.setAttribute('onclick', '');
+        if(uidSubmit.className === "submitHover") {
+            uidSubmit.classList.remove("submitHover");
+        }
     }
 }
 
