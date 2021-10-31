@@ -9,11 +9,26 @@
     <link rel="stylesheet" href="../styling/prompt_styling.css">
 </head>
 
+<!-- 
+todo:
+- convert background image to 3 images
+    - remove certain images when scaling
+ -->
+
 <body>
-    <h1>Prompt</h1>
-    
-    <p>Cool prompt things</p>
-    <a href="drawpad.html">TO DRAWPAD</a>
+    <img src="../assets/prompt/prompt-banner.svg" id="prompt-img">
+    <div id="back-button" onclick="window.location.href='landing-page.html'">
+        <img src="../assets/Arrow.svg" id="arrow">  <strong>Back</strong>
+    </div>
+
+    <main>
+        <p id="top-text">Today's prompt</p>
+        <P id="prompt">What is your favourite sea animal?</P>
+    </main>
+    <div id="start-drawing-container">
+        <button type="button" id="start-drawing" onclick="window.location.href='drawpad.html'">Start Drawing</button>
+    </div>
+
 </body>
 
 </html>
