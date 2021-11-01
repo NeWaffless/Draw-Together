@@ -73,14 +73,13 @@ function createGrid() {
 
 
 async function getDrawings() {
-    // probably change this to GET
-        // receive all drawings
     const options = {
         method: 'GET',
         headers: {
             "Content-Type": "application/json"
         }
     };
+    // todo: standardise these calls
     const serverContact = await fetch('/drawings', options);
     const result = await serverContact.json();
     drawings.push(...result);

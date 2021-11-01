@@ -10,9 +10,11 @@ todo:
   - rearrange functions to make logical order
   - review how status' are sent through promises
     - integers, and maybe status is returned as part of the promise alongside / as part of the response?
-  - optimise reading a writing files
+  - optimise reading and writing files
   - rename Datastore to db
   - add Keagan Parker to db
+  - change deprecated existsSync with fs.stat or fs.access
+  - comment to explain sections of code & functions
 */
 
 
@@ -44,7 +46,31 @@ function createFile(newPath, data) {
   });
 }
 
-// change '/finish' to something more meaningful
+app.get('/landing-page-state', (req, res) => {
+  let data = {
+    state: "0",
+    name: ""
+  };
+  try {
+    if(fs.existsSync(uidPath)) {
+      const userData = fs.readFileSync(uidPath, 'utf8')
+      const uid = JSON.parse(userData).uid;
+      data.name = JSON.parse(userData).fname;
+      if(fs.existsSync(imgFolder + uid + '.json')) {
+        data.state = "2";
+      } else {
+        data.state = "1";
+      }
+    }
+  } catch(err) {
+    console.log("An error occured finding the user id file");
+    data.state = "err";
+  }
+  
+  res.send(data);
+});
+
+// todo: change '/finish' to something more meaningful
 app.post('/finish', (request, response) => {
 
   console.log('Drawing submission request from:  ' + request.body.uid);
@@ -109,4 +135,10 @@ app.get('/uid', (req, res) => {
     if(fsErr) throw fsErr;
     res.send(data);
   });
+});
+
+app.get('/logout', (req, res) => {
+  if(fs.existsSync(uidPath)) {
+    fs.unlinkSync(uidPath);
+  }
 });

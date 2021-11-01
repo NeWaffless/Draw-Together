@@ -11,6 +11,11 @@
 </head>
 
 <body>
+    
+    <div id="back-button" onclick="window.location.href='prompt.html'">
+        <img src="../assets/Arrow.svg" alt="Back arrow" id="arrow">  <strong>Back</strong>
+    </div>
+
     <header>What is your favourite sea animal?</header>
     
     <main style="display: flex;">
@@ -25,6 +30,7 @@
             <button type="button" id="undo-button" onclick="undoButtonEvent()">
                 <img src="../assets/drawpad/Undo.svg" alt="Undo button" id="undo-img" width="38px" height="38px">Undo
             </button>
+
             <button type="button" id="background-button" onclick="bgButtonEvent()">Background</button>
             <!-- todo: change background colour based on shade -->
             <ul id="background-colours">

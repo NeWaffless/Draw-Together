@@ -1,0 +1,121 @@
+/* 
+todo:
+- bg position and size for different window sizes
+    - too big on 1920px1080p but good on iPad size
+- reactive main box
+    - too low for iPad size screens
+*/
+
+* {
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+body {
+    background-color: #FAF4F4;
+    width: 100%;
+    height: 100%;
+    margin:0;
+}
+
+#logout {
+    color: #9B7D7D;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    font-size: 150%;
+
+    display: none;
+}
+
+#logout:hover {
+    cursor: pointer;
+}
+
+#logout-icon {
+    width: 20%;
+    height: 20%;
+    padding-right: 5px;
+}
+
+#bg {
+    z-index: -1;
+    width: 65%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(4px, -5%);
+}
+
+main {
+    margin: 0;
+    position:absolute;
+    bottom: 12%;
+    left: 10%;
+    width: 70%;
+}
+
+#top-content-container {
+    width: 65%;
+}
+
+#logo {
+    width: 90%;
+}
+
+#main-text {
+    width: 90%;
+    font-size: 30px;
+    font-weight: 500;
+    margin: 30px 0px 30px 0px;
+}
+
+#bottom-content-container {
+    width: 100%;
+    height: 30px;
+    display: flex;
+}
+
+#finished-drawing {
+    display: none;
+}
+
+#finished-tick {
+    width: 30px;
+    height: 30px;
+}
+
+#finished-text {
+    margin: 4px 0 0 12px;
+    padding:0;
+    font-size: 24px;
+}
+
+#action-btn {
+    background-color: #353641;
+    color: #FAF4F4;
+    font-weight: bold;
+    font-size: 24px;
+    padding: 15px 50px 15px 50px;
+    border-radius: 100px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: all 0.2s ease-in-out;
+    margin-top: 0;
+
+    position: absolute;
+    /* right: 15%; */
+}
+
+#action-btn:hover {
+    opacity: 80%;
+    cursor: pointer;
+}

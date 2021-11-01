@@ -28,6 +28,23 @@ main {
     margin: 20px;
 }
 
+#back-button {
+    position: absolute;
+    top: 1%;
+    left: 2%;
+    font-size: 150%;
+}
+
+#back-button:hover {
+    cursor: pointer;
+}
+
+#arrow {
+    width: 20%;
+    height: 20%;
+    transform: rotate(180deg);
+}
+
 #pad-frame {
     border: solid;
     border-width: 5px;

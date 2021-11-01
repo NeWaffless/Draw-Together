@@ -9,11 +9,31 @@
     <link rel="stylesheet" href="../styling/landing-page_styling.css">
 </head>
 
+<!-- 
+todo:
+- logout functionality
+ -->
+
 <body>
-    <h1>Landing page</h1>
-    
-    <p>Button to next page</p>
-    <p>Script determining styling of page & button location</p>
+    <img src="../assets/landing_page/background.svg" alt="Jigsaw piece background" id="bg">
+    <div id="logout" onclick="logout()">
+        <img src="../assets/landing_page/logout.svg" alt="Logout icon" id="logout-icon">  <strong>Log Out</strong>
+    </div>
+
+    <main>
+        <div id="top-content-container">
+            <img src="../assets/Logo.svg" alt="Draw together logo" id="logo">
+            <p id="main-text">Hi there! Click the button below to start drawing.</p>
+        </div>
+        <div id="bottom-content-container">
+            <div id="finished-drawing">
+                <img src="../assets/landing_page/tick.svg" alt="Checkmark" id="finished-tick"><p id="finished-text">Finished drawing</p>
+            </div>
+            <button type="button" id="action-btn" onclick="window.location.href='sign-in.html'">Get Started</button>
+        </div>
+    </main>
+
+    <script src="../scripts/LandingPage.js"></script>
 </body>
 
 </html>

@@ -88,8 +88,6 @@ function getUID() {
     }, function(err) {
         throw err;
     });
-
-    return -1;
 }
 getUID();
 let drawingAsString = null;

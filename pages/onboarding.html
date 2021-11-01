@@ -12,12 +12,13 @@
 <!-- 
 todo:
 - maybe make progress bar positioned absolutely
+- change onboarding text to not include <br>
  -->
 
 <body>
     <main>
-        <img src="" id="onboarding-img">
-        <p id="welcome">Welcome to <b>Draw Together!</b></p>
+        <img src="" alt="Onboarding image" id="onboarding-img">
+        <p id="welcome">Welcome to <strong>Draw Together!</strong></p>
         <p id="main-text"></p>
         <ul id="onboarding-progress">
             <li></li>
@@ -28,7 +29,7 @@ todo:
     </main>
 
     <div id="next-button" onclick="next()">
-        <b>Next</b>  <img src="../assets/Arrow.svg" id="arrow">
+        <strong>Next</strong>  <img src="../assets/Arrow.svg" alt="Next arrow" id="arrow">
     </div>
 
     <script>
