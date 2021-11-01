@@ -48,7 +48,7 @@ async function getPageState() {
 
 async function logout() {
     const options = {
-        method: 'GET',
+        method: 'DELETE',
         headers: {
             "Content-Type": "application/json"
         }

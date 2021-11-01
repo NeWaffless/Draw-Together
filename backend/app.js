@@ -137,7 +137,7 @@ app.get('/uid', (req, res) => {
   });
 });
 
-app.get('/logout', (req, res) => {
+app.delete('/logout', (req, res) => {
   if(fs.existsSync(uidPath)) {
     fs.unlinkSync(uidPath);
   }
