@@ -1,5 +1,69 @@
+/* 
+todo:
+- make prompt-content flexible base on jigsaw piece width / height
+*/
+
+* {
+    font-family:Arial, Helvetica, sans-serif;
+}
+
 body {
     background-color: #FAF4F4;
+}
+
+#logout {
+    background-color: #FAF4F4;
+    color: #353641;
+    font-weight: bold;
+    font-size: 24px;
+    padding: 15px 50px 15px 50px;
+    border-radius: 100px;
+    border-style: solid;
+    border-color: #353641;
+    border-width: 4px;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: all 0.2s ease-in-out;
+    margin-top: 0;
+
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    z-index: 100;
+}
+
+#logout:hover {
+    opacity: 80%;
+    cursor: pointer;
+}
+
+#prompt-content {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    top: 10px;
+    left: 10px;
+    overflow: hidden;
+    z-index: 50;
+}
+
+#week {
+    margin: 0;
+    color: #F97C7C;
+    font-weight: 500;
+    font-size: 18px;
+    position: absolute;
+    top: 40px;
+}
+
+#prompt {
+    color: #FFFFFF;
+    font-size: 28px;
+    margin: 0;
+    position: absolute;
+    bottom: 10px;
 }
 
 #jigsaw {

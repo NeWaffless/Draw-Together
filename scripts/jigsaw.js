@@ -64,13 +64,14 @@ function createGrid() {
 
         // todo: maybe change this so that it does not store the html element, and instead the json contained at the html
         jigsaw.addToGrid(i, piece);
+        
+        piece.style.zIndex = 0;
         document.getElementById('jigsaw').appendChild(piece);
 
     }
 
 
 }
-
 
 async function getDrawings() {
     const options = {
@@ -87,6 +88,19 @@ async function getDrawings() {
 }
 
 getDrawings();
+
+async function logout() {
+    const options = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    
+    fetch('/logout', options);
+    
+    window.location.href = 'landing-page.html';
+}
 
 
 

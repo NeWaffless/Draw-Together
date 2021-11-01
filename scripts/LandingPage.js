@@ -55,6 +55,7 @@ async function logout() {
     };
     
     fetch('/logout', options);
+    // todo: maybe this should not redirect?
     window.location.href = 'sign-in.html';
 }
 
