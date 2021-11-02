@@ -1,14 +1,31 @@
 /* 
 todo:
-- make prompt-content flexible base on jigsaw piece width / height
+    - make prompt-content flexible base on jigsaw piece width / height
+    - active clicked button styling
+    - align individual drawing elements (to look nice)
+        - probably adjust the puzzle piece position
 */
 
 * {
     font-family:Arial, Helvetica, sans-serif;
 }
 
+/* 
+prevents user from highlighting
+    this is mostly for the high-fi prototype as it wouldn't be relevant for touch screen devices
+    you can thank me later, this is really annoying
+*/
+*, img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
 body {
     background-color: #FAF4F4;
+    overflow: hidden;
 }
 
 #logout {
@@ -36,6 +53,49 @@ body {
 #logout:hover {
     opacity: 80%;
     cursor: pointer;
+}
+
+#zoom, #save {
+    background-color: #353641;
+    color: #FAF4F4;
+    font-weight: medium;
+    font-size: 20px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    border-radius: 100px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.2s ease-in-out;
+    z-index: 100;
+}
+
+#zoom {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}
+
+#zoom > p {
+    position: relative;
+    top: 25%;
+}
+
+/* todo: change from opacity to colour */
+#zoom:hover {
+    opacity: 80%;
+}
+
+#zoom:active {
+    background-color: black;
+}
+
+#zoom-icon {
+    margin-right: 16px;
+    width: 16px;
+    height: 16px;
 }
 
 #prompt-content {
@@ -93,4 +153,74 @@ body {
     top: 0;
     left: 0;
     z-index: 1;
+}
+
+#individual-drawing {
+    display: none;
+}
+
+#back-button {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    font-size: 150%;
+}
+
+#back-button:hover {
+    cursor: pointer;
+}
+
+#back-arrow {
+    width: 20%;
+    height: 20%;
+    transform: rotate(180deg);
+}
+
+#individual-drawing-content {
+    width: 60%;
+    height: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#child-name {
+    font-weight: bold;
+    font-size: xx-large;
+    margin: 0;
+}
+
+#one-drawing-wrapper {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#one-drawing-template {
+    position: absolute;
+    height: 60%;
+    z-index: -1;
+}
+
+#one-drawing {
+    position: absolute;
+    height: 50%;
+    z-index: 0;
+}
+
+#left-arrow {
+    transform: rotate(180deg);
+    position: absolute;
+    left: 0;
+}
+
+#right-arrow {
+    position: absolute;
+    right: 0;
 }

@@ -2,8 +2,9 @@
 todo:
     - error checking
     - methods may not need to be static
-    - dtry to refactor out magic numbers
+    - try to refactor out magic numbers
     - check where returning should be - 1 for array index
+    - add get piece method (so code is cleaner)
 */
 
 // first four puzzle pieces reserved for prompts
