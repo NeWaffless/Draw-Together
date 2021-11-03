@@ -308,6 +308,8 @@ function drawpad(p) {
         backgroundToCopy.background(bgCol);
 
         bgButton.style.backgroundColor = colToString(bgCol);
+
+        saveDrawing();
     }
 
     function saveDrawing() {
