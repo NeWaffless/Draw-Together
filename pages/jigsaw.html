@@ -18,7 +18,9 @@ todo:
 <body>
     <main id="all-drawings">
         <button type="button" id="logout" onclick="logout()">Log Out</button>
-        <button type="button" id="zoom"><img src="../assets/jigsaw/zoom.svg" alt="Zoom magnifying glass icon" id="zoom-icon">Zoom In</button>
+        <button type="button" id="zoom" onclick="switchZoom()">
+            <img src="../assets/jigsaw/zoom.svg" alt="Zoom magnifying glass icon" id="zoom-icon"><p id="zoom-text">Zoom In</p>
+        </button>
         
         <div id="jigsaw" draggable="false">
             <div id="prompt-content">

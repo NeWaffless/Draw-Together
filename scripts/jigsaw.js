@@ -5,27 +5,59 @@ todo:
     - get current users drawing to make it stand out / animate in
     - fix puzzle piece gaps (little slithers of white)
     - fix puzzle piece sizing and ratio
-    - add radix to parseInt
     - remove grid demo
     - jigsaw placement algorithm
     - probably split this file into multiple js files
         - and / or organise functions
     - for all documents, comment functions that aren't explicit or are complex
+    - shift jigsaw position when zooming
+        - or add to future that middle of screen stays consistent with resize
 */
 
 const jigsawTemplatePath = '../assets/jigsaw/jigsaw_pieces/';
 let jigsaw;
 let drawings = [];
+const minWidth = 110;
+const minHeight = 110;
 
-// todo: reformat this function
-function createGrid() {
-    const width = 110;
-    const height = 110;
-
-    jigsaw = new JigsawGrid(drawings.length);
+function createDOMElements() {
     for(let i = 1; i < jigsaw.grid.length; i++) {
         const piece = document.createElement('div');
         piece.className += "jigsaw-piece";
+        
+        let col = 'blk';
+        let name = '';
+        if(i > prompt) {
+            const drawing = document.createElement('img');
+            drawing.className += "drawing";
+            drawing.src = drawings[i - prompt - 1].drawStr;
+            drawing.onclick = function() { drawingClicked(i); };
+            drawing.setAttribute('draggable', false);
+            piece.appendChild(drawing);
+            
+            col = drawings[i - prompt - 1].col;
+            name = drawings[i - prompt - 1].name;
+        }
+
+        const template = document.createElement('img');
+        template.className += "template";
+        template.src = jigsawTemplatePath + `${col}.svg`;
+        template.setAttribute('draggable', false);
+        if(i > prompt) template.onclick = function() { drawingClicked(i); };
+        piece.appendChild(template);
+
+        jigsaw.addToGrid(i, {dom: piece, name: name});
+        document.getElementById('jigsaw').appendChild(piece);
+    }
+}
+
+function positionPieces(width, height) {
+    for(let i = 1; i < jigsaw.grid.length; i++) {
+        const piece = jigsaw.grid[i].dom;
+        const xOffset = parseInt(width / 10, 10);
+        const yOffset = parseInt(height/ 10, 10);
+
+
         piece.style.width = `${width}px`;
         piece.style.height = `${height}px`;
 
@@ -40,46 +72,33 @@ function createGrid() {
         piece.style.top = `${(x * height)}px`;
         piece.style.left = `${(y * width)}px`;
         
-        let col = 'blk';
-        let name = '';
         if(i > prompt) {
-            const drawing = document.createElement('img');
-            drawing.className += "drawing";
-            drawing.src = drawings[i - prompt - 1].drawStr;
-            drawing.style.width = `${(width - parseInt(width / 10))}px`;
-            drawing.style.height = `${(height - parseInt(height / 10))}px`;
-            drawing.style.top = `${parseInt(width / 10)}px`;
-            drawing.style.left = `${parseInt(height / 10)}px`;
-            // allows click and drag over jigsaw
-            drawing.setAttribute('draggable', false);
-            col = drawings[i - prompt - 1].col;
-            name = drawings[i - prompt - 1].name;
-            drawing.onclick = function() { drawingClicked(i); };
-            piece.appendChild(drawing);
+            // drawing
+            piece.childNodes[0].style.width = `${width - xOffset}px`;
+            piece.childNodes[0].style.height = `${height - yOffset}px`;
+            piece.childNodes[0].style.top = `${xOffset}px`;
+            piece.childNodes[0].style.left = `${yOffset}px`;
+
+            // piece template
+            piece.childNodes[1].style.width = `${width + xOffset}px`;
+            piece.childNodes[1].style.height = `${height + yOffset}px`;
+        } else {
+            // piece template
+            piece.childNodes[0].style.width = `${width + xOffset}px`;
+            piece.childNodes[0].style.height = `${height + yOffset}px`;
         }
         
-        
-        const template = document.createElement('img');
-        template.className += "template";
-        
-        // assign num to drawing col
-        template.src = jigsawTemplatePath + `${col}.svg`;
-        // this fraction is the main square of the piece / the piece connector
-        template.style.width = `${(width + parseInt(width / 10))}px`;
-        template.style.height = `${(height + parseInt(height / 10))}px`;
-        // allows click and drag over jigsaw
-        template.setAttribute('draggable', false);
-        if(i > prompt) {
-            template.onclick = function() { drawingClicked(i); };
-        }
-
-        piece.appendChild(template);
-        jigsaw.addToGrid(i, {dom: piece, name: name});
-        
-        document.getElementById('jigsaw').appendChild(piece);
-
     }
+}
 
+// todo: reformat this function
+function createGrid() {
+    const width = minWidth;
+    const height = minHeight;
+
+    jigsaw = new JigsawGrid(drawings.length);
+    createDOMElements();
+    positionPieces(width, height);
     document.body.removeChild(document.getElementById('loading'));
 
 }
@@ -194,6 +213,27 @@ function switchPage(state, d) {
     } else {
         document.getElementById('all-drawings').style.display = 'initial';
         document.getElementById('individual-drawing').style.display = 'none';
+    }
+}
+
+let zoomState = 0;
+function switchZoom() {
+    if(zoomState === 0) {
+        positionPieces(300, 300);
+        document.getElementById('prompt-content').style.width = '450px';
+        document.getElementById('prompt-content').style.height = '450px';
+        document.getElementById('week').style.fontSize = "45px";
+        document.getElementById('prompt').style.fontSize = "70px";
+        document.getElementById('zoom-text').innerHTML = "Zoom Out";
+        zoomState = 1;
+    } else {
+        positionPieces(minWidth, minHeight);
+        document.getElementById('prompt-content').style.width = '180px';
+        document.getElementById('prompt-content').style.height = '180px';
+        document.getElementById('week').style.fontSize = "18px";
+        document.getElementById('prompt').style.fontSize = "28px";
+        document.getElementById('zoom-text').innerHTML = "Zoom In";
+        zoomState = 0;
     }
 }
 
