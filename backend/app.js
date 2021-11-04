@@ -15,6 +15,7 @@ todo:
   - add Keagan Parker to db
   - change deprecated existsSync with fs.stat or fs.access
   - comment to explain sections of code & functions
+  - clean up calls
 */
 
 
@@ -25,6 +26,8 @@ app.use(express.json({limit: '1mb'}));
 
 const db = new Datastore('database.db');
 db.loadDatabase();
+
+// db.insert({uid: "uid", fname: "first name", sname: "surname"});
 
 const imgFolder = './user_imgs/';
 const uidPath = 'curr_uid.json';
@@ -46,6 +49,10 @@ function createFile(newPath, data) {
   });
 }
 
+function hasDrawn(uid) {
+  return fs.existsSync(imgFolder + uid + '.json');
+}
+
 app.get('/landing-page-state', (req, res) => {
   let data = {
     state: "0",
@@ -53,10 +60,9 @@ app.get('/landing-page-state', (req, res) => {
   };
   try {
     if(fs.existsSync(uidPath)) {
-      const userData = fs.readFileSync(uidPath, 'utf8')
-      const uid = JSON.parse(userData).uid;
+      const userData = fs.readFileSync(uidPath, 'utf8');
       data.name = JSON.parse(userData).fname;
-      if(fs.existsSync(imgFolder + uid + '.json')) {
+      if(hasDrawn(JSON.parse(userData).uid)) {
         data.state = "2";
       } else {
         data.state = "1";
@@ -79,24 +85,33 @@ app.post('/finish', (request, response) => {
   let newPath = imgFolder + data.uid + '.json';
 
   // system for waffl user <- effectively infinite drawings
+    // this is for prototyping only, this is the dev user!!!
   if(data.uid === "waffl") {
     newPath = imgFolder + data.uid + '_' + Math.floor(Math.random() * 1000000).toString() + '.json';
-    createFile(newPath, {col: data.col, drawStr: data.drawStr});
-    response.json({status: 'success'});
-
+  }
+  
+  if(!fs.existsSync(newPath)) {
+    db.find({uid:data.uid}, function (err, res) {
+      if(err) throw err;
+      if(res.length > 0) {
+        const name = res[0].fname + ' ' + res[0].sname;
+        console.log(name);
+        fs.appendFileSync(newPath, {name: name, col: data.col, drawStr: data.drawStr});
+        console.log("Successfully created file for user: " + data.uid);
+        response.json({status: 'success'});
+      } else {
+        console.log('Failed to find user name');
+        response.json({status: 'failed'});
+      }
+    });
   } else {
-    if(!fs.existsSync(newPath)) {
-      createFile(newPath, {col: data.col, drawStr: data.drawStr});
-
-      response.json({status: 'success'});
-    } else {
-      console.log("-- EXISTS  for user -- " + data.uid + '\n');
-      response.json({status: 'exists'});
-    }
+    console.log("-- EXISTS  for user -- " + data.uid + '\n');
+    response.json({status: 'exists'});
   }
 });
 
-app.get('/drawings', (req, res) => {
+// todo: change to something more meaningful
+app.get('/drawings', (request, response) => {
   console.log('\nRequest to receive images');
   let drawings = [];
   fs.readdirSync(imgFolder).forEach(file => {
@@ -106,20 +121,22 @@ app.get('/drawings', (req, res) => {
   console.log('Finished reading all files');
   console.log(drawings.length);
 
-  res.send(drawings);
+  response.send(drawings);
 });
 
-app.post('/login', (request, response) => {
-  db.find({uid:request.body.uid}, function (err, res) {
+app.post('/sign-in', (request, response) => {
+  const uid = request.body.uid;
+  db.find({uid:uid}, function (err, res) {
     if(err) throw err;
     if(res.length > 0) {
       fs.writeFileSync(uidPath, JSON.stringify(res[0]), 'utf8', (fsErr) => {
         if(fsErr) throw fsErr;
       });
 
-
+      const fd = hasDrawn(uid);
       response.json({
-        status: 'success'
+        status: 'success',
+        finishedDrawing: fd
       });
     } else {
       response.json({
@@ -135,6 +152,13 @@ app.get('/uid', (req, res) => {
     if(fsErr) throw fsErr;
     res.send(data);
   });
+});
+
+app.get('/is-signed-in', (req, res) => {
+  const result = {exists: false};
+  if(fs.existsSync(uidPath)) result.exists = true;
+
+  res.send(result);
 });
 
 app.delete('/logout', (req, res) => {

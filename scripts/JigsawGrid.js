@@ -195,9 +195,5 @@ class JigsawGrid {
         this.grid[n] = content;
     }
 
-    // appendDrawing(drawing) {
-
-    // }
-
 
 }

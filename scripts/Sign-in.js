@@ -17,12 +17,14 @@ async function checkUID() {
         },
         body: JSON.stringify(data)
     };
-    const contact = await fetch('/login', options);
+    const contact = await fetch('/sign-in', options);
     const result = await contact.json();
     
     if(result.status === 'success') {
-        window.location.href = "/pages/prompt.html";
+        if(result.finishedDrawing) window.location.href = "/pages/landing-page.html";
+        else window.location.href = "/pages/prompt.html";
     } else {
+        // todo: append bad login message
         console.log("Invalid login");
     }
 }

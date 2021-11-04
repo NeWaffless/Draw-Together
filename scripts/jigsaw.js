@@ -9,6 +9,8 @@ todo:
     - remove grid demo
     - jigsaw placement algorithm
     - probably split this file into multiple js files
+        - and / or organise functions
+    - for all documents, comment functions that aren't explicit or are complex
 */
 
 const jigsawTemplatePath = '../assets/jigsaw/jigsaw_pieces/';
@@ -39,6 +41,7 @@ function createGrid() {
         piece.style.left = `${(y * width)}px`;
         
         let col = 'blk';
+        let name = '';
         if(i > prompt) {
             const drawing = document.createElement('img');
             drawing.className += "drawing";
@@ -50,6 +53,7 @@ function createGrid() {
             // allows click and drag over jigsaw
             drawing.setAttribute('draggable', false);
             col = drawings[i - prompt - 1].col;
+            name = drawings[i - prompt - 1].name;
             drawing.onclick = function() { drawingClicked(i); };
             piece.appendChild(drawing);
         }
@@ -70,18 +74,23 @@ function createGrid() {
         }
 
         piece.appendChild(template);
-
-        // todo: maybe change this so that it does not store the html element, and instead the json contained at the html
-        jigsaw.addToGrid(i, piece);
+        jigsaw.addToGrid(i, {dom: piece, name: name});
         
         document.getElementById('jigsaw').appendChild(piece);
 
     }
 
+    document.body.removeChild(document.getElementById('loading'));
 
 }
 
 async function getDrawings() {
+
+    const loading = document.createElement('p');
+    loading.innerHTML = 'LOADING PIECES';
+    loading.setAttribute("id", "loading");
+    document.body.appendChild(loading);
+
     const options = {
         method: 'GET',
         headers: {
@@ -175,10 +184,13 @@ function switchPage(state, d) {
     if(state === 1) {
         document.getElementById('all-drawings').style.display = 'none';
         document.getElementById('individual-drawing').style.display = 'initial';
-        const piece = jigsaw.grid[d];
+        const piece = jigsaw.grid[d].dom;
         currDrawing = d;
         document.getElementById('one-drawing-template').src = piece.childNodes[1].src;
         document.getElementById('one-drawing').src = piece.childNodes[0].src;
+        document.getElementById('child-name').innerHTML = jigsaw.grid[d].name;
+        document.getElementById('save').href = piece.childNodes[0].src;
+        document.getElementById('save').download = jigsaw.grid[d].name + "'s drawing";
     } else {
         document.getElementById('all-drawings').style.display = 'initial';
         document.getElementById('individual-drawing').style.display = 'none';

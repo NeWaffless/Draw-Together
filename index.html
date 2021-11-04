@@ -6,16 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Welcome to Draw together 😊</title>
+    <link rel="shortcut icon" type="image/svg" href="/assets/Logo-icon.svg"/>
     <link rel="stylesheet" href="../styling/index_styling.css">
 </head>
 
+<!-- 
+todo:
+- make asset images all lower case
+- add favicon to all pages
+ -->
+
 <body onload="setTimeout(loadNextPage, 6000)">
-    <img src="assets/Logo.svg" id="logo">
+    <img src="assets/Logo.svg" alt="Logo" id="logo">
 
     <script>
-        function loadNextPage() {
-            window.location.href = "/pages/onboarding.html";
+        let nextPage = "/pages/onboarding.html";
+        isSignedIn();
+
+        async function isSignedIn() {
+            const options = {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            };
+            
+            const serverContact = await fetch('/is-signed-in', options);
+            const result = await serverContact.json();
+            
+            if(result.exists) nextPage = "/pages/landing-page.html";
         }
+
+        function loadNextPage() {
+            window.location.href = nextPage;
+        }
+
     </script>
 </body>
 

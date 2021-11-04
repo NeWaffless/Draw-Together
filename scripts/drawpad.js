@@ -72,7 +72,7 @@ let bgShadeInd = 0;
 let newBGInd = 0;
 
 
-// ---------------------- TESTING VARIABLES ---------------------- //
+// todo: update this server call
 let currUID = null;
 function getUID() {
     const options = {
@@ -92,7 +92,6 @@ function getUID() {
 getUID();
 let drawingAsString = null;
 
-// ---------------------- END TESTING VARIABLES ---------------------- //
 
 
 let undoClicked = false;

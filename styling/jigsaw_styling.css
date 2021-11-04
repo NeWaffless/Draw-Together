@@ -28,6 +28,14 @@ body {
     overflow: hidden;
 }
 
+#loading {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: (-50%);
+    font-size: 20px;
+}
+
 #logout {
     background-color: #FAF4F4;
     color: #353641;
@@ -84,7 +92,7 @@ body {
 }
 
 /* todo: change from opacity to colour */
-#zoom:hover {
+#zoom:hover, #save:hover {
     opacity: 80%;
 }
 
