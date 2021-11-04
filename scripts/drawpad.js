@@ -1,23 +1,13 @@
-// ---------------------- TODO: ---------------------- //
-
-
 /*
-    refactor this shit
-    fix undo with background
-        changing background not recognised with undo
-    threshold function
-    assign shaded version of colours to css
-    determine whether variables should be global or not!!
-        i.e. localise all these variables (this is seriously bad XD)
-
-    check whether server is open to request
-    move todo inline
-    make get request into an external file for reuse
+todo:
+- refactor this shit
+- maybe organise requests into files
+- get it working with touch screen input (so that ipad mode works in chrome)
 */
 
 
-// ---------------------- END TODO ---------------------- //
-
+// todo: determine whether variables should be global or not!!
+    // i.e. localise all these variables (this is seriously bad XD)
 // canvas
 let drawing;
 const canvasWidth = document.getElementById('pad-frame').offsetWidth - 9;
@@ -68,6 +58,7 @@ let brush = {
 // background
 let bgCol = [255, 255, 255, 255];
 let bgMainInd = 0;
+// todo: assign shaded version of colours to css
 let bgShadeInd = 0;
 let newBGInd = 0;
 
@@ -108,7 +99,7 @@ function brushButtonEvent() {
 
     brushButton.style.marginLeft = '0';
     eraserButton.style.marginLeft = 'auto';
-};
+}
 
 function eraserButtonEvent() {
     brush.type = BrushType.Eraser;
@@ -116,7 +107,7 @@ function eraserButtonEvent() {
 
     brushButton.style.marginLeft = 'auto';
     eraserButton.style.marginLeft = '0';
-};
+}
 
 function undoButtonEvent() {
     undoClicked = true
@@ -130,13 +121,13 @@ function bgButtonEvent() {
     } else {
         backgroundColoursStyle.display = "none";
     }
-};
+}
 
 function colourChange(newColInd) {
     if(newColInd != bgMainInd) {
         backgroundChangeClicked = true;
         newBGInd = newColInd;
-        // possibly remove <- based on user testing
+        // todo: possibly remove <- based on user testing
         bgButtonEvent();
     }
 }
@@ -165,7 +156,7 @@ async function finishButtonEvent() {
         body: JSON.stringify(dataToSend)
     };
 
-    const serverResponse = await fetch('/finish', options);
+    const serverResponse = await fetch('/submit-drawing', options);
     const result = await serverResponse.json();
     if(result.status === 'success') {
         window.location.href = "jigsaw.html";
@@ -179,7 +170,7 @@ function drawpad(p) {
     }
 
     function canvasSetup() {
-        p.createCanvas(canvasWidth , canvasHeight); // preferably adjust to div
+        p.createCanvas(canvasWidth , canvasHeight); // todo: preferably adjust to div
         drawing = p.createGraphics(canvasWidth, canvasHeight);
 
         // pick colour randomly here
@@ -215,6 +206,9 @@ function drawpad(p) {
         historySetup();
     }
 
+    
+    // todo: fix undo with background
+        // changing background not recognised with undo
     function undo() {
         let canUndo = history.undo();
         if(canUndo) {
@@ -316,8 +310,6 @@ function drawpad(p) {
         backgroundToCopy.background(bgCol);
         p.image(drawing, 0, 0);
         drawingAsString = p.canvas.toDataURL();
-
-        // p.saveCanvas(drawing, 'my_drawing', 'png');
     }
 
     p.mouseReleased = function() {
@@ -331,4 +323,5 @@ function drawpad(p) {
     }
 }
 
+// the linter is wrong
 new p5(drawpad, 'pad-frame');

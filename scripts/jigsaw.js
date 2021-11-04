@@ -3,15 +3,14 @@ todo:
     - change variable names in function call to represent purpose
     - order drawing presentation (storing drawings with uid?)
     - get current users drawing to make it stand out / animate in
-    - fix puzzle piece gaps (little slithers of white)
-    - fix puzzle piece sizing and ratio
-    - remove grid demo
-    - jigsaw placement algorithm
     - probably split this file into multiple js files
         - and / or organise functions
-    - for all documents, comment functions that aren't explicit or are complex
-    - shift jigsaw position when zooming
-        - or add to future that middle of screen stays consistent with resize
+        - organise what script runs and what are functions / calls
+    - access grid content through add and get methods
+        - and other various JigsawGrid functions
+    - have const references to dom elements
+    - something is wrong when f12 using iPad as device, there's overflow??
+    - iPad touch screen panning doesn't work for onmousedown / mouse move
 */
 
 const jigsawTemplatePath = '../assets/jigsaw/jigsaw_pieces/';
@@ -20,8 +19,9 @@ let drawings = [];
 const minWidth = 110;
 const minHeight = 110;
 
+// todo: jigsaw placement algorithm
 function createDOMElements() {
-    for(let i = 1; i < jigsaw.grid.length; i++) {
+    for(let i = 1; i < jigsaw.size; i++) {
         const piece = document.createElement('div');
         piece.className += "jigsaw-piece";
         
@@ -51,8 +51,10 @@ function createDOMElements() {
     }
 }
 
+// todo: fix puzzle piece gaps (little slithers of white)
+    // fix puzzle piece sizing and ratio
 function positionPieces(width, height) {
-    for(let i = 1; i < jigsaw.grid.length; i++) {
+    for(let i = 1; i < jigsaw.size; i++) {
         const piece = jigsaw.grid[i].dom;
         const xOffset = parseInt(width / 10, 10);
         const yOffset = parseInt(height/ 10, 10);
@@ -91,7 +93,6 @@ function positionPieces(width, height) {
     }
 }
 
-// todo: reformat this function
 function createGrid() {
     const width = minWidth;
     const height = minHeight;
@@ -104,7 +105,6 @@ function createGrid() {
 }
 
 async function getDrawings() {
-
     const loading = document.createElement('p');
     loading.innerHTML = 'LOADING PIECES';
     loading.setAttribute("id", "loading");
@@ -151,6 +151,8 @@ const delta = 6;
 const jigsawElement = document.getElementById('jigsaw');
 
 document.addEventListener('mousedown', function(ev) {
+    if(document.getElementById('all-drawings').style.display === 'none') return;
+
     clicked = true;
     moved = false;
     startX = ev.clientX;
@@ -158,14 +160,30 @@ document.addEventListener('mousedown', function(ev) {
 });
 
 document.addEventListener('mousemove', function(ev) {
-    // todo: only register if not hidden
     if(clicked && (Math.abs(ev.clientX - startX) > delta
     || Math.abs(ev.clientY - startY) > delta)) {
         moved = true;
 
-        // todo: lock panning so middle of puzzle cannot go offscreen
-        jigsawElement.style.top = `${jigsawElement.offsetTop + ev.clientY - lastY}px`;
-        jigsawElement.style.left = `${jigsawElement.offsetLeft + ev.clientX - lastX}px`;
+        // constrain panning height and width
+        const topDiff = ev.clientY - lastY;
+        const newTop = jigsawElement.offsetTop + topDiff;
+        let topOffset = (jigsaw.ring(jigsaw.size - 1) - 1) * parseInt(jigsaw.grid[1].dom.style.height);
+        if((newTop >= -topOffset && newTop <= document.documentElement.clientHeight + topOffset)
+            || (newTop < -topOffset && topDiff > 0)
+            || (newTop > document.documentElement.clientHeight + topOffset && topDiff < 0))
+        {
+            jigsawElement.style.top = `${newTop}px`;
+        }
+
+        const leftDiff = ev.clientX - lastX;
+        const newLeft = jigsawElement.offsetLeft + leftDiff;
+        const leftOffset = (jigsaw.ring(jigsaw.size - 1) - 1) * parseInt(jigsaw.grid[1].dom.style.width);
+        if((newLeft >= -leftOffset && newLeft <= document.documentElement.clientWidth + leftOffset)
+            || (newLeft < -leftOffset && leftDiff > 0)
+            || (newLeft > document.documentElement.clientWidth + leftOffset && leftDiff < 0))
+        {
+            jigsawElement.style.left = `${newLeft}px`;
+        }
     }
     lastX = ev.clientX;
     lastY = ev.clientY;
@@ -183,7 +201,6 @@ function drawingClicked(d) {
 
     switchPage(1, d);
 }
-
 // todo: this is TERRIBLE, change it to local storage or something of that nature
     // not some random floating variable
 // todo: these magic numbers are horrific
@@ -191,10 +208,10 @@ let currDrawing;
 
 function changeCurrentDrawing(d) {
     let newDrawing = currDrawing + d;
-    if(newDrawing < 5) {
-        newDrawing = drawings.length + 5 - 1;
-    } else if(newDrawing >= drawings.length + 5) {
-        newDrawing = 5;
+    if(newDrawing <= prompt) {
+        newDrawing = jigsaw.size - 1;
+    } else if(newDrawing >= jigsaw.size) {
+        newDrawing = prompt + 1;
     }
     switchPage(1, newDrawing);
 }
@@ -216,16 +233,18 @@ function switchPage(state, d) {
     }
 }
 
-let zoomState = 0;
+// todo: shift jigsaw position when zooming
+    // or add to future that middle of screen stays consistent with resize
+let zoomState = false;
 function switchZoom() {
-    if(zoomState === 0) {
+    if(!zoomState) {
         positionPieces(300, 300);
         document.getElementById('prompt-content').style.width = '450px';
         document.getElementById('prompt-content').style.height = '450px';
         document.getElementById('week').style.fontSize = "45px";
         document.getElementById('prompt').style.fontSize = "70px";
         document.getElementById('zoom-text').innerHTML = "Zoom Out";
-        zoomState = 1;
+        zoomState = true;
     } else {
         positionPieces(minWidth, minHeight);
         document.getElementById('prompt-content').style.width = '180px';
@@ -233,85 +252,6 @@ function switchZoom() {
         document.getElementById('week').style.fontSize = "18px";
         document.getElementById('prompt').style.fontSize = "28px";
         document.getElementById('zoom-text').innerHTML = "Zoom In";
-        zoomState = 0;
+        zoomState = false;
     }
 }
-
-// ------------------------ GRID DEMO  ------------------------ //
-
-
-
-/*
-
-const red = 'rgb(255, 0, 0)';
-const green = 'rgb(0, 255, 0)';
-
-const size = 36;
-const width = 110;
-const height = 110;
-
-const grid = new JigsawGrid(size);
-for(let i = 1; i <= size; i++) {
-    let pos = grid.gridPos(i);
-
-    const piece = document.createElement('div');
-    piece.className += "jigsaw-piece";
-    piece.style.width = `${width}px`;
-    piece.style.height = `${height}px`;
-
-    if(pos[1] > 0) pos[1] -= 1;
-    pos[0] *= -1;
-    if(pos[0] > 0) pos[0] -= 1;
-    piece.style.top = `${(pos[0] * height)}px`;
-    piece.style.left = `${(pos[1] * width)}px`;
-    
-    // used for visual testing
-    // const r = Math.floor(Math.random() * 256);
-    // const g = Math.floor(Math.random() * 256);
-    // const b = Math.floor(Math.random() * 256);
-    // piece.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-    piece.style.backgroundColor = green;
-
-    const text = document.createElement('h1');
-    text.innerHTML = `${i}`;
-
-    piece.appendChild(text);
-    grid.addToGrid(i, piece);
-    document.getElementById('jigsaw').appendChild(piece);
-}
-
-
-// used for demonstrative purposes
-let cursor = 1;
-grid.grid[cursor].style.backgroundColor = red;
-document.onkeydown = function(e) {
-    let dir;
-    switch(e.key) {
-        case 'w':
-            dir = Direction.UP;
-            break;
-        case 'd':
-            dir = Direction.RIGHT;
-            break;
-        case 's':
-            dir = Direction.DOWN;
-            break;
-        case 'a':
-            dir = Direction.LEFT;
-            break;
-        default:
-            console.log(e.key);
-            break;
-    }
-    const temp = cursor;
-    cursor = grid.gridPosInDir(cursor, dir);
-    if(cursor < grid.grid.length) {
-        grid.grid[temp].style.backgroundColor = green;
-        grid.grid[cursor].style.backgroundColor = red;
-    }  else {
-        cursor = temp;
-    }
-}
-
-*/
-

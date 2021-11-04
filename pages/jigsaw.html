@@ -5,14 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Class drawings 🧩</title>
+    <title>Finished jigsaw</title>
+    <link rel="shortcut icon" type="image/svg" href="/assets/logo-icon.svg"/>
     <link rel="stylesheet" href="../styling/jigsaw_styling.css">
 </head>
 
 <!-- 
 todo:
-- fix the id naming, it's really bad!!!
+- fix the names of the element id's naming, it's really bad!!!
 - potentially add logo to log out button
+- style drawn-by text
+- add piece backdrop
  -->
 
 <body>
@@ -24,7 +27,7 @@ todo:
         
         <div id="jigsaw" draggable="false">
             <div id="prompt-content">
-                <p id="week">Week 8 prompt</p>
+                <p id="week">Prompt</p>
                 <p id="prompt">What is your favourite sea animal?</p>
             </div>
         </div>
@@ -33,10 +36,9 @@ todo:
     <main id="individual-drawing">
         <!-- back button goes back to jigsaw displaying all drawings -->
         <div id="back-button" onclick="switchPage(0,0)">
-            <img src="../assets/Arrow.svg" alt="Back arrow" id="back-arrow">  <strong>Back</strong>
+            <img src="../assets/arrow.svg" alt="Back arrow" id="back-arrow">  <strong>Back</strong>
         </div>
         
-        <!-- todo: style drawn by -->
         <div id="individual-drawing-content">
             <p>DRAWN BY </p><p id="child-name"></p>
             <div id="one-drawing-wrapper">

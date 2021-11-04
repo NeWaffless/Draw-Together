@@ -5,21 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Welcome to Draw together 😊</title>
+    <title>First time</title>
+    <link rel="shortcut icon" type="image/svg" href="/assets/logo-icon.svg"/>
     <link rel="stylesheet" href="../styling/onboarding_styling.css">
 </head>
-
-<!-- 
-todo:
-- maybe make progress bar positioned absolutely
-- change onboarding text to not include <br>
- -->
 
 <body>
     <main>
         <img src="" alt="Onboarding image" id="onboarding-img">
         <p id="welcome">Welcome to <strong>Draw Together!</strong></p>
         <p id="main-text"></p>
+        <div id="get-started" onclick="window.location.href='sign-in.html'">
+            Get Started
+        </div>
         <ul id="onboarding-progress">
             <li></li>
             <li></li>
@@ -28,55 +26,65 @@ todo:
         </ul>
     </main>
 
-    <div id="next-button" onclick="next()">
-        <strong>Next</strong>  <img src="../assets/Arrow.svg" alt="Next arrow" id="arrow">
+    <div id="back-button" onclick="updatePage(-1)">
+        <img src="../assets/arrow.svg" alt="Back arrow" id="back-arrow">  <strong>Back</strong>
+    </div>
+
+    <div id="next-button" onclick="updatePage(1)">
+        <strong>Next</strong>  <img src="../assets/arrow.svg" alt="Next arrow" id="next-arrow">
     </div>
 
     <script>
-        let onboardingPage = 0;
-
         const mainText = [
-            "In this app, you get to draw<br>whatever you want.",
-            "Once you finish your<br>drawing, it will be placed in a<br>jigsaw puzzle.",
-            "All of your class mates<br>drawings will be there too!",
-            "You are all set! Press the button<br>below to start drawing!"
+            "In this app, you get to draw whatever you want.",
+            "Once you finish, your drawing will be put in a Finished Puzzle.",
+            "Your friends drawings will be there too!",
+            "Press the button below to start drawing!"
         ];
-
-        function nextImg() {
-            const img = document.getElementById('onboarding-img');
-            img.src = `../assets/onboarding/onboarding-student-${onboardingPage}.png`;
-            if(onboardingPage == 2) {
-                img.style.width = "50%";
-                img.style.height = "50%";
-            }
-        }
+        // set to -1 since update page runs automatically
+        let onboardingPage = -1;
+        updatePage(1);
 
         // yes, there are magic numbers and hard coded page values
             // no, I'm not using an enum or changing these to be separate pages because it looks much cleaner like this
-        function next() {
-            onboardingPage++;
-            nextImg();
-            document.getElementById('main-text').innerHTML = mainText[onboardingPage - 1];
-            
-            document.querySelectorAll('li')[onboardingPage - 1].style.opacity = "100%";
-            if(onboardingPage > 1) document.querySelectorAll('li')[onboardingPage - 2].style.opacity = "30%";
-            
-            if(onboardingPage == 2) document.getElementById('welcome').remove();
-            if(onboardingPage == 4) {
-                document.getElementById('next-button').remove();
+        function updatePage(inc) {
+            onboardingPage += inc;
+            if(onboardingPage < 0 || onboardingPage > mainText.length) {
+                console.log("Onboarding broke whilst trying to change page");
+            }
+            // elements that consistently change
+            document.getElementById('main-text').innerHTML = mainText[onboardingPage];
+            document.querySelectorAll('li')[onboardingPage].style.opacity = "100%";
+            if(!(onboardingPage === 0 && inc > 0)) {
+                document.querySelectorAll('li')[onboardingPage + (inc*-1)].style.opacity = "30%";
+            }
 
-                const getStarted = document.createElement('button');
-                getStarted.setAttribute("id", "get-started");
-                getStarted.type = "button";
-                getStarted.innerHTML = "Get Started";
-                getStarted.onclick = function() {window.location.href = "sign-in.html";};
+            let imgSz = "50%";
+            // first page
+            if(onboardingPage === 0) {
+                document.getElementById('welcome').style.display = "initial";
+                document.getElementById('back-button').style.display = "none";
+                // first onboarding image is much larger than the rest
+                imgSz = "65%";
+            } else {
+                document.getElementById('welcome').style.display = "none";
+                document.getElementById('back-button').style.display = "initial";
+            }
 
-                const mainTextElement = document.getElementById('main-text');
-                mainTextElement.parentNode.insertBefore(getStarted, mainTextElement.nextSibling);
+            const img = document.getElementById('onboarding-img');
+            img.src = `../assets/onboarding/onboarding-student-${onboardingPage}.png`;
+            img.style.width = imgSz;
+            img.style.height = imgSz;
+            
+            // final page
+            if(onboardingPage === mainText.length - 1) {
+                document.getElementById('next-button').style.display = "none";
+                document.getElementById('get-started').style.display = "initial";
+            } else {
+                document.getElementById('next-button').style.display = "initial";
+                document.getElementById('get-started').style.display = "none";
             }
         }
-
-        next();
     </script>
 </body>
 

@@ -1,7 +1,10 @@
 /* 
 todo:
 - resize prompt fontsize for scaling
+- accomodate resizing with background
 */
+
+
 
 * {
     font-family:Arial, Helvetica, sans-serif;

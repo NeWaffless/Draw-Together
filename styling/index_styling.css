@@ -3,17 +3,12 @@ body {
 }
 
 #logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 70%;
     height: 70%;
-    position: absolute;
-    /*
-        This should probably be done dynamically
-        15% = 50% - width / 2 (35%)
-        15% = 50% - height / 2 (35%)
-    */
-    top: 15%;
-    left: 15%;
-
     opacity: 0;
     animation-name: logoFade;
     animation-duration: 6s;

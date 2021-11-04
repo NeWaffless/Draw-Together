@@ -76,8 +76,7 @@ app.get('/landing-page-state', (req, res) => {
   res.send(data);
 });
 
-// todo: change '/finish' to something more meaningful
-app.post('/finish', (request, response) => {
+app.post('/submit-drawing', (request, response) => {
 
   console.log('Drawing submission request from:  ' + request.body.uid);
   const data = request.body;
@@ -96,7 +95,7 @@ app.post('/finish', (request, response) => {
       if(res.length > 0) {
         const name = res[0].fname + ' ' + res[0].sname;
         console.log(name);
-        fs.appendFileSync(newPath, {name: name, col: data.col, drawStr: data.drawStr});
+        createFile(newPath, {name: name, col: data.col, drawStr: data.drawStr});
         console.log("Successfully created file for user: " + data.uid);
         response.json({status: 'success'});
       } else {

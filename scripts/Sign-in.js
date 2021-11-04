@@ -5,6 +5,7 @@ const uidSubmit = document.getElementById('uid-submit');
 todo:
 - check if user is currently logged in
     - run immediately upon start up
+    - this is in the case a user reaches this screen when they shouldn't
 - user feedback for bad input
 */
 
