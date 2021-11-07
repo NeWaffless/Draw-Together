@@ -110,7 +110,7 @@ function eraserButtonEvent() {
 }
 
 function undoButtonEvent() {
-    undoClicked = true
+    undoClicked = true;
 }
 
 function bgButtonEvent() {
@@ -166,7 +166,8 @@ async function finishButtonEvent() {
 
 function drawpad(p) {
     function colToString(col) {
-        return 'rgb(' + col[0].toString() + ',' + col[1].toString() + ',' + col[2].toString() + ')';
+        // return 'rgb(' + col[0].toString() + ',' + col[1].toString() + ',' + col[2].toString() + ')';
+        return `rgb(${col[0].toString()},${col[1].toString()},${col[2].toString()})`;
     }
 
     function canvasSetup() {
@@ -193,9 +194,11 @@ function drawpad(p) {
 
         history = new HistoryBuffer(histSize);
         for(let i = 0; i < history.size + 1; i++) {
-            history.arr[i] = p.createImage(canvasWidth, canvasHeight);
+            history.arr[i].drawing = p.createImage(canvasWidth, canvasHeight);
+            history.arr[i].col = bgCol;
         }
-        history.arr[0] = backgroundToCopy.get();
+        history.arr[0].drawing = backgroundToCopy.get();
+        history.arr[0].col = bgCol;
     }
 
     p.setup = function() {
@@ -206,14 +209,13 @@ function drawpad(p) {
         historySetup();
     }
 
-    
-    // todo: fix undo with background
-        // changing background not recognised with undo
     function undo() {
         let canUndo = history.undo();
         if(canUndo) {
             drawing.copy(backgroundToCopy, 0, 0, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
-            drawing.copy(history.arr[history.ptr], 0, 0, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
+            drawing.copy(history.arr[history.ptr].drawing, 0, 0, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
+            bgCol = history.arr[history.ptr].col;
+            bgButton.style.backgroundColor = colToString(history.arr[history.ptr].col);
         }
     }
 
@@ -315,7 +317,8 @@ function drawpad(p) {
     p.mouseReleased = function() {
         if(incHistory) {
             history.add();
-            history.arr[history.ptr] = drawing.get(); // passing drawing into a function doesn't work because :shrug:
+            history.arr[history.ptr].drawing = drawing.get(); // passing drawing into a function doesn't work because :shrug:
+            history.arr[history.ptr].col = bgCol;
             incHistory = false;
 
             saveDrawing();

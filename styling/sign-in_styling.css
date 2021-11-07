@@ -55,6 +55,12 @@ main {
     margin-bottom: 20px;
 }
 
+#error-text {
+    display: none;
+    color: red;
+    font-size: 20px;
+}
+
 #uid {
     border-color: #353641;
     border-radius: 30px;

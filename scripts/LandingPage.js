@@ -1,3 +1,8 @@
+/*
+todo:
+- wait for logout confirmation before changing page
+*/
+
 function updatePage(pageState, name) {
     const logoutBtn = document.getElementById('logout');
     const mainText = document.getElementById('main-text');
@@ -46,7 +51,9 @@ async function getPageState() {
     }
 }
 
-async function logout() {
+getPageState();
+
+async function logoutConfirmed() {
     const options = {
         method: 'DELETE',
         headers: {
@@ -59,4 +66,10 @@ async function logout() {
     window.location.href = 'sign-in.html';
 }
 
-getPageState();
+function logoutClicked() {
+    document.getElementById('logout-confirmation').style.display = 'flex';
+}
+
+function logoutCancelled() {
+    document.getElementById('logout-confirmation').style.display = 'none';
+}

@@ -10,7 +10,8 @@ todo:
 */
 
 async function checkUID() {
-    const data = {uid:uidElement.value.toLowerCase()};
+    const uidToCheck = uidElement.value.toLowerCase();
+    const data = {uid:uidToCheck};
     const options = {
         method: 'POST',
         headers: {
@@ -22,11 +23,12 @@ async function checkUID() {
     const result = await contact.json();
     
     if(result.status === 'success') {
+        document.getElementById('error-text').style.display = "none";
         if(result.finishedDrawing) window.location.href = "/pages/landing-page.html";
         else window.location.href = "/pages/prompt.html";
     } else {
-        // todo: append bad login message
-        console.log("Invalid login");
+        document.getElementById('error-text').style.display = "initial";
+        document.getElementById('error-text').innerHTML = `Student code '${uidToCheck}' was not found. Try again.`;
     }
 }
 

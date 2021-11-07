@@ -13,12 +13,25 @@
 <!-- 
 todo:
 - restyle based on Figma
+- style confirmation based on Figma
  -->
 
 <body>
     <img src="../assets/landing_page/background.svg" alt="Jigsaw piece background" id="bg">
-    <div id="logout" onclick="logout()">
+    <div id="logout" onclick="logoutClicked()">
         <img src="../assets/landing_page/logout.svg" alt="Logout icon" id="logout-icon">  <strong>Log Out</strong>
+    </div>
+
+    <div id="logout-confirmation">
+        <div id="logout-confirmation-box">
+            <p id="logout-confirmation-text">Are you sure you want to log out?</p>
+            <div id="logout-buttons">
+                <button type="button" id="logout-confirm" onclick="logoutConfirmed()">Log out</button>
+                <button type="button" id="logout-cancel" onclick="logoutCancelled()">Cancel</button>
+            </div>
+        </div>
+        <!-- todo: see if this is necessary -->
+        <div id="logout-bg"></div>
     </div>
 
     <main>

@@ -27,6 +27,7 @@ app.use(express.json({limit: '1mb'}));
 const db = new Datastore('database.db');
 db.loadDatabase();
 
+// todo: insert Keagan Parker
 // db.insert({uid: "uid", fname: "first name", sname: "surname"});
 
 const imgFolder = './user_imgs/';
@@ -34,7 +35,7 @@ const uidPath = 'curr_uid.json';
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at port localhost:${port}`)
+  console.log(`Draw together app hosted at port localhost:${port}`);
 });
 
 app.use(express.static('../'));

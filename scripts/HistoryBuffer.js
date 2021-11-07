@@ -8,6 +8,12 @@ class HistoryBuffer {
         this.fin = 0;
         this.ptr = 0;
         this.size = size;
+
+        this.arr.length += this.size + 1;
+        //todo: for-of loop
+        for(let i = 0; i < this.arr.length; i++) {
+            this.arr[i] = {drawing: "", col: -1};
+        }
     }
     
     inc(x) {
@@ -19,6 +25,7 @@ class HistoryBuffer {
         return x - 1;
     }
     
+    // todo: what does this do??
     add() {
         this.ptr = this.inc(this.ptr);
         if(this.ptr == this.fin) {
@@ -31,6 +38,7 @@ class HistoryBuffer {
         }
     }
     
+    // todo: what does this do??
     undo() {
         if(this.inc(this.ptr) == this.start) return false;
         this.ptr = this.dec(this.ptr);
@@ -43,5 +51,3 @@ class HistoryBuffer {
     //     return true;
     // }
 }
-
-let tal = 5;
