@@ -12,12 +12,34 @@
 
 <!-- 
 todo:
-- convert background image to 3 images
-    - remove certain images when scaling
 - rename to question.html
+- change the word prompt to question anywhere it comes up
  -->
 
 <body>
+    <div id="bg">
+        <img id="fish-left" src="../assets/prompt/fish-left.svg" alt="Fish">
+        <img id="seaweed-left" src="../assets/prompt/seaweed-left.svg" alt="Seaweed">
+        <img id="fish-right" src="../assets/prompt/fish-right.svg" alt="Fish">
+        <img id="seaweed-right" src="../assets/prompt/seaweed-right.svg" alt="Seaweed">
+    </div>
+
+    <div id="back-button" onclick="window.location.href='landing-page.html'">
+        <img src="../assets/arrow.svg" alt="Back arrow" id="arrow">  <strong>Back</strong>
+    </div>
+
+    <main>
+        <p id="top-text">Question</p>
+        <P id="prompt">What is your favourite sea animal?</P>
+    </main>
+    <div id="start-drawing-container">
+        <button type="button" id="start-drawing" onclick="window.location.href='drawpad.html'">Start Drawing</button>
+    </div>
+</body>
+
+</html>
+
+<!-- <body>
     <img src="../assets/prompt/prompt-banner.svg" alt="Prompt banner" id="prompt-img">
     <div id="back-button" onclick="window.location.href='landing-page.html'">
         <img src="../assets/arrow.svg" alt="Back arrow" id="arrow">  <strong>Back</strong>
@@ -30,7 +52,4 @@ todo:
     <div id="start-drawing-container">
         <button type="button" id="start-drawing" onclick="window.location.href='drawpad.html'">Start Drawing</button>
     </div>
-
-</body>
-
-</html>
+</body> -->

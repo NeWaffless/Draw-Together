@@ -12,7 +12,6 @@ function updatePage(pageState, name, drawingObj) {
     if(pageState === 1 || pageState === "1") {
         logoutBtn.style.display = "initial";
         hello.style.display = "initial";
-        hello.innerHTML = "Hello,";
         document.getElementById('name').innerHTML = `${name}!`;
         nextPageBtn.innerHTML = "Join Activity";
         nextPageBtn.onclick = function() { window.location.href='prompt.html'; };

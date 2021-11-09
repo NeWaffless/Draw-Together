@@ -1,7 +1,7 @@
 /* 
 todo:
 - resize prompt fontsize for scaling
-- accomodate resizing with background
+- fish behind seaweed in full size prompt screen
 */
 
 
@@ -16,9 +16,9 @@ body {
 
 #back-button {
     position: absolute;
-    top: 10%;
-    left: 10%;
-    font-size: 150%;
+    top: 5%;
+    left: 5%;
+    font-size: 30px;
 }
 
 #back-button:hover {
@@ -31,11 +31,13 @@ body {
     transform: rotate(180deg);
 }
 
+/* todo: change width based on screen size */
 main {
     position: absolute;
-    top: 10%;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%);
+    transform: translate(-50%, -70%);
+    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -59,24 +61,56 @@ main {
     padding:0;
 }
 
-#prompt-img {
+#bg {
     position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
-    height: 90%;
-    top: 10%;
-    left: 0;
-    overflow-y: hidden;
+    height: 100%;
+    overflow: hidden;
 }
 
+#fish-left, #fish-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25%;
+    height: 70%;
+}
+
+#seaweed-left, #seaweed-right {
+    position: absolute;
+    bottom: 0;
+    height: 20%;
+}
+
+#fish-left {
+    left: -5%;
+}
+
+#seaweed-left {
+    left: 5%;
+}
+
+#fish-right {
+    right: -5%;
+}
+
+#seaweed-right {
+    right: 2%;
+}
+
+/* todo: this is a redundant container */
 #start-drawing-container {
     position: absolute;
-    bottom: 5%;
+    bottom: 15%;
     left: 50%;
     transform: translate(-50%);
 }
 
 #start-drawing {
-    background-color: #353641;
+    background-image: linear-gradient(to right, #f97c7c , #f15c5c);
     color: #FAF4F4;
     font-weight: bold;
     font-size: 24px;
