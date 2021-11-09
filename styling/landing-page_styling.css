@@ -150,11 +150,11 @@ main {
 
 #logout-confirmation-box {
     position: absolute;
-    background-color: white;
+    background-color: #FAF4F4;
     opacity: 100%;
     width: 550px;
     height: 250px;
-    border-radius: 100px;
+    border-radius: 40px;
     display: flex;
     justify-content: center;
 
@@ -162,12 +162,10 @@ main {
 }
 
 #logout-confirmation-text {
-    position: absolute;
-
-    top: 10%;
     text-align: center;
-    width: 90%;
+    width: 80%;
     font-size: 38px;
+    font-weight: 600;
 }
 
 #logout-buttons {
@@ -179,14 +177,12 @@ main {
 }
 
 #logout-confirm, #logout-cancel {
-    background-color: #353641;
     margin: 0;
     border-radius: 100px;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    color: #FAF4F4;
-    font-weight: medium;
+    font-weight: 600;
     font-size: 20px;
     letter-spacing: 2px;
     text-align: center;
@@ -194,4 +190,17 @@ main {
     padding: 15px 30px 15px 30px;
     margin: 0 30px 0 30px;
     width: 180px;
+}
+
+#logout-confirm {
+    background-color: #FAF4F4;
+    color: #353641;
+    border-style: solid;
+    border-color: #353641;
+    border-width: 4px;
+}
+
+#logout-cancel {
+    background-color: #353641;
+    color: #FAF4F4;
 }

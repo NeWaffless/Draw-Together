@@ -11,6 +11,8 @@ todo:
     - have const references to dom elements
     - something is wrong when f12 using iPad as device, there's overflow??
     - iPad touch screen panning doesn't work for onmousedown / mouse move
+    - users piece animates in (and offsets the jigsaw)
+    - zoom in & zoom out animation
 */
 
 const jigsawTemplatePath = '../assets/jigsaw/jigsaw_pieces/';
@@ -129,7 +131,7 @@ getDrawings();
 
 
 
-async function logout() {
+async function logoutConfirmed() {
     const options = {
         method: 'DELETE',
         headers: {
@@ -138,8 +140,16 @@ async function logout() {
     };
     
     fetch('/logout', options);
-    
-    window.location.href = 'landing-page.html';
+    // todo: maybe this should not redirect?
+    window.location.href = 'sign-in.html';
+}
+
+function logoutClicked() {
+    document.getElementById('logout-confirmation').style.display = 'flex';
+}
+
+function logoutCancelled() {
+    document.getElementById('logout-confirmation').style.display = 'none';
 }
 
 let clicked = false;

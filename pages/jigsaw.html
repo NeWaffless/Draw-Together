@@ -20,7 +20,19 @@ todo:
 
 <body>
     <main id="all-drawings">
-        <button type="button" id="logout" onclick="logout()">Log Out</button>
+        <button type="button" id="logout" onclick="logoutClicked()">Log Out</button>
+
+        <div id="logout-confirmation">
+            <div id="logout-confirmation-box">
+                <p id="logout-confirmation-text">Are you sure you want to log out?</p>
+                <div id="logout-buttons">
+                    <button type="button" id="logout-confirm" onclick="logoutConfirmed()">Log out</button>
+                    <button type="button" id="logout-cancel" onclick="logoutCancelled()">Cancel</button>
+                </div>
+            </div>
+            <div id="logout-bg"></div>
+        </div>
+
         <button type="button" id="zoom" onclick="switchZoom()">
             <img src="../assets/jigsaw/zoom.svg" alt="Zoom magnifying glass icon" id="zoom-icon"><p id="zoom-text">Zoom In</p>
         </button>

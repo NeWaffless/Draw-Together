@@ -3,6 +3,8 @@ todo:
 - refactor this shit
 - maybe organise requests into files
 - get it working with touch screen input (so that ipad mode works in chrome)
+- wait for user call before allowing more button input
+- potential browser / server error (something stalls the server processing)
 */
 
 
@@ -160,6 +162,8 @@ async function finishButtonEvent() {
     const result = await serverResponse.json();
     if(result.status === 'success') {
         window.location.href = "jigsaw.html";
+    } else {
+        console.log('Could not submit user drawing');
     }
 }
 
