@@ -10,16 +10,11 @@
     <link rel="stylesheet" href="../styling/landing-page_styling.css">
 </head>
 
-<!-- 
-todo:
-- restyle based on Figma
- -->
-
 <body>
-    <img src="../assets/landing_page/background.svg" alt="Jigsaw piece background" id="bg">
     <div id="logout" onclick="logoutClicked()">
         <img src="../assets/landing_page/logout.svg" alt="Logout icon" id="logout-icon">  <strong>Log Out</strong>
     </div>
+    <img src="../assets/logo.svg" alt="Draw together logo" id="logo">
 
     <div id="logout-confirmation">
         <div id="logout-confirmation-box">
@@ -32,18 +27,31 @@ todo:
         <div id="logout-bg"></div>
     </div>
 
-    <main>
-        <div id="top-content-container">
-            <img src="../assets/logo.svg" alt="Draw together logo" id="logo">
-            <p id="main-text">Hi there! Click the button below to start drawing.</p>
-        </div>
-        <div id="bottom-content-container">
-            <div id="finished-drawing">
-                <img src="../assets/landing_page/tick.svg" alt="Checkmark" id="finished-tick"><p id="finished-text">Finished drawing</p>
+
+
+    <!-- todo: these terrible div names -->
+    <main id="main">
+        <p id="hello">Hello,</p>
+        <div id="drawing-container">
+            <p id="drawing-text">This is your drawing</p>
+            <div id="drawing-content">
+                <img id="drawing-template" src="" alt="Your drawing template">
+                <img id="drawing" src="" alt="Your drawing">
             </div>
-            <button type="button" id="action-btn" onclick="window.location.href='sign-in.html'">Get Started</button>
         </div>
+        <div id="name-container">
+            <p id="name">Hello!</p>
+            <img id="underline" src="../assets/landing_page/underline.svg" alt="Name underline">
+        </div>
+        <img id="tap-here" src="../assets/landing_page/tap-here.svg" alt="Text saying tap here">
+        <button type="button" id="next-page" onclick="window.location.href='sign-in.html'">Get Started</button>
     </main>
+
+    <div id="bg">
+            <img class="bg-piece" id="piece-1" src="../assets/landing_page/piece-1.svg" alt="Puzzle piece in background">
+            <img class="bg-piece" id="piece-2" src="../assets/landing_page/piece-2.svg" alt="Puzzle piece in background">
+            <img class="bg-piece" id="piece-3" src="../assets/landing_page/piece-3.svg" alt="Puzzle piece in background">
+    </div>
 
     <script src="../scripts/LandingPage.js"></script>
 </body>

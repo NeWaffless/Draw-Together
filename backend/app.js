@@ -57,14 +57,16 @@ function hasDrawn(uid) {
 app.get('/landing-page-state', (req, res) => {
   let data = {
     state: "0",
-    name: ""
+    name: "",
+    drawing: ""
   };
   try {
     if(fs.existsSync(uidPath)) {
-      const userData = fs.readFileSync(uidPath, 'utf8');
-      data.name = JSON.parse(userData).fname;
-      if(hasDrawn(JSON.parse(userData).uid)) {
+      const userData = JSON.parse(fs.readFileSync(uidPath, 'utf8'));
+      data.name = userData.fname;
+      if(hasDrawn(userData.uid)) {
         data.state = "2";
+        data.drawing = fs.readFileSync(imgFolder + userData.uid + '.json', 'utf8');
       } else {
         data.state = "1";
       }

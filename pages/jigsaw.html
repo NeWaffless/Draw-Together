@@ -21,7 +21,6 @@ todo:
 <body>
     <main id="all-drawings">
         <button type="button" id="logout" onclick="logoutClicked()">Log Out</button>
-
         <div id="logout-confirmation">
             <div id="logout-confirmation-box">
                 <p id="logout-confirmation-text">Are you sure you want to log out?</p>
@@ -39,7 +38,7 @@ todo:
         
         <div id="jigsaw" draggable="false">
             <div id="prompt-content">
-                <p id="week">Prompt</p>
+                <p id="week">Question</p>
                 <p id="prompt">What is your favourite sea animal?</p>
             </div>
         </div>
@@ -52,7 +51,7 @@ todo:
         </div>
         
         <div id="individual-drawing-content">
-            <p>DRAWN BY </p><p id="child-name"></p>
+            <p>Drawn by </p><p id="child-name"></p>
             <div id="one-drawing-wrapper">
                 <img src="../assets/jigsaw/page-arrow.svg" alt="Arrow to previous drawing" class="nav-arrow" id="left-arrow" onclick="changeCurrentDrawing(-1)">
                 <img src="" alt="Individual drawing template" id="one-drawing-template">

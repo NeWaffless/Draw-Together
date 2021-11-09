@@ -3,34 +3,31 @@ todo:
 - wait for logout confirmation before changing page
 */
 
-function updatePage(pageState, name) {
+function updatePage(pageState, name, drawingObj) {
     const logoutBtn = document.getElementById('logout');
-    const mainText = document.getElementById('main-text');
-    const actionBtn = document.getElementById('action-btn');
-    const finishedText = document.getElementById('finished-drawing');
+    const hello = document.getElementById('hello');
+    const nextPageBtn = document.getElementById('next-page');
     
     // todo: this could probably be done better
     if(pageState === 1 || pageState === "1") {
         logoutBtn.style.display = "initial";
-        mainText.innerHTML = `Hi <strong>${name}</strong>! Click the button below to start drawing.`;
-        actionBtn.style.right = null;
-        actionBtn.innerHTML = "Join activity";
-        actionBtn.onclick = function() { window.location.href='prompt.html'; };
-        finishedText.style.display = "none";
+        hello.style.display = "initial";
+        hello.innerHTML = "Hello,";
+        document.getElementById('name').innerHTML = `${name}!`;
+        nextPageBtn.innerHTML = "Join Activity";
+        nextPageBtn.onclick = function() { window.location.href='prompt.html'; };
     } else if(pageState === 2 || pageState === "2") {
         logoutBtn.style.display = "initial";
-        mainText.innerHTML = `Hi <strong>${name}</strong>! Click the button below to view your drawing.`;
-        actionBtn.style.right = "15%";
-        actionBtn.innerHTML = "Go To Jigsaw";
-        actionBtn.onclick = function() { window.location.href='jigsaw.html'; };
-        finishedText.style.display = "flex";
-    } else {
-        logoutBtn.style.display = "none";
-        mainText.innerHTML = "Hi there! Click the button below to start drawing.";
-        actionBtn.style.right = null;
-        actionBtn.innerHTML = "Get Started";
-        actionBtn.onclick = function() { window.location.href='sign-in.html'; };
-        finishedText.style.display = "none";
+        hello.style.display = "initial";
+        hello.innerHTML = `Hello <strong>${name}!</strong>`;
+        document.getElementById('main').style.marginTop = '0';
+        document.getElementById('bg').style.display = 'none';
+        document.getElementById('name-container').style.display = 'none';
+        document.getElementById('drawing-container').style.display = 'flex';
+        document.getElementById('drawing').src = drawingObj.drawStr;
+        document.getElementById('drawing-template').src = `../assets/jigsaw/jigsaw_pieces/${drawingObj.col}.svg`;
+        nextPageBtn.innerHTML = "See Jigsaw";
+        nextPageBtn.onclick = function() { window.location.href='jigsaw.html'; };
     }
 }
 
@@ -44,10 +41,10 @@ async function getPageState() {
     
     const serverContact = await fetch('/landing-page-state', options);
     const result = await serverContact.json();
-    if(result.satus === "err") {
+    if(result.status === "err") {
         console.log("Failed to retrieve state of page");
     } else {
-        updatePage(result.state, result.name);
+        updatePage(result.state, result.name, JSON.parse(result.drawing));
     }
 }
 
