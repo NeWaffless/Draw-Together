@@ -1,9 +1,19 @@
+/* 
+todo:
+- question text styling based on page size
+- style button bar based on page size
+*/
+
 * {
     padding: 0;
     margin: 0;
     font-family:Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 36px;
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 body {
@@ -13,19 +23,22 @@ body {
 header {
     padding-top: 20px;
     padding-left: 20px;
-    /* width: 620px; */
     text-align: center;
+    font-size: 28px;
+    font-weight: 600;
 }
 
 main {
+    position: relative;
     margin: 20px;
+    display: flex;
 }
 
 #back-button {
     position: absolute;
-    top: 1%;
+    top: 2%;
     left: 2%;
-    font-size: 150%;
+    font-size: 24px;
 }
 
 #back-button:hover {
@@ -40,82 +53,94 @@ main {
 
 #pad-frame {
     border: solid;
-    border-width: 5px;
-    border-color: purple;
-    width: 620px;
-    height: 620px;
+    border-width: 6px;
+    border-color: #353641;
+    margin-right: 20px;
 }
 
-#button-bar {
-    height: 620px;
+#all-buttons {
+    position: relative;
+    width: 30%;
+}
+
+#btn-flex-container {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    margin-left: 80px;
-    margin-right: 0;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
 }
 
-button, #finish-button {
-    margin-left: auto;
-    margin-right: 0;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: rgb(251, 181, 206);
-    border: none;
-    border-radius: 100px;
-    color: black;
-    text-align: center;
-    text-decoration: none;
+#pencil, #eraser {
+    width: 200px;
+    height: 90px;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
 }
 
-#undo-button, #background-button, #finish-button {
-    width: 280px;
-    height: 80px;
+/* todo: animate this */
+#pencil {
+    align-self: center;
 }
 
-
-#brush-button, #eraser-button {
-    background-color: transparent;
+#undo-btn, #bg-btn, .finish-btn {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    height: 60px;
+    border-radius: 100px;
+    border: none;
+    font-size: 24px;
+    font-weight: 500;
+    cursor: pointer;
 }
 
-
-#brush-button {
-    margin-left: 0;
-}
-
-#undo-button {
+#undo-btn {
     background-color: #D7C9C9;
     color: #443E3E;
 }
 
-#undo-img {
-    margin-right: 30px;
-    vertical-align: middle;
-}
-
-#undo-button:hover {
-    background-color: pink;
-}
-
-#undo-button:active {
-    background-color: #CDCDCD;
-}
-
-#background-button:hover {
+#undo-btn:hover, #bg-btn:hover, .finish-btn:hover {
     opacity: 80%;
+}
+
+
+#undo-img {
+    height: 25px;
+    margin-right: 10px;
+}
+
+#bg {
+    position: relative;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#bg-btn {
+    margin-bottom: 10px;
+}
+
+#colour-backdrop {
+    position: absolute;
+    top: 70px;
+    width: 200px;
+    z-index: -1;
+
+    display: none;
 }
 
 #background-colours {
     list-style-type: none;
+    position: relative;
+    top: 20px;
+
     display: none;
 }
 
 #background-colours > li {
     display: inline-block;
-    padding: 20px;
+    padding: 12px;
     margin: 3px;
     border-radius: 100px;
     cursor: pointer;
@@ -123,7 +148,7 @@ button, #finish-button {
 }
 
 #background-colours > li:hover {
-    padding: 23px;
+    padding: 15px;
     margin: 0;
 }
 
@@ -147,21 +172,109 @@ button, #finish-button {
     background-color: rgb(105, 158, 221);
 }
 
-#finish-button {
+.finish-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #D0BCBC;
+    color: #9B7D7D;
+}
+
+.finish-btn:hover {
+    opacity: 100%;
+    cursor: default;
+}
+
+#finishOverride {
     background-color: #353641;
     color: #FAF4F4;
-    margin-bottom: 0;
 }
 
-#finish-button > p {
-    position: relative;
-    top: 25%;
-}
-
-#finish-button:hover {
+#finishOverride:hover {
     opacity: 80%;
+    cursor: pointer;
 }
 
-#finish-button:active {
+#finish-confirmation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 100;
+}
+
+#finish-bg {
+    position: absolute;
     background-color: black;
+    opacity: 40%;
+    width: 100%;
+    height: 100%;
+
+    z-index: 100;
+}
+
+#finish-confirmation-box {
+    position: absolute;
+    background-color: #FAF4F4;
+    opacity: 100%;
+    width: 550px;
+    height: 250px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+
+    z-index: 101;
+}
+
+#finish-confirmation-text {
+    position: absolute;
+    top: 25%;
+    text-align: center;
+    width: 80%;
+    font-size: 38px;
+    font-weight: 600;
+}
+
+#finish-buttons {
+    position: absolute;
+    bottom: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#finish-confirm, #finish-cancel {
+    margin: 0;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-align: center;
+    text-decoration: none;
+    padding: 15px 30px 15px 30px;
+    margin: 0 30px 0 30px;
+    width: 180px;
+}
+
+#finish-confirm {
+    background-color: #FAF4F4;
+    color: #353641;
+    border-style: solid;
+    border-color: #353641;
+    border-width: 4px;
+}
+
+#finish-cancel {
+    background-color: #353641;
+    color: #FAF4F4;
 }

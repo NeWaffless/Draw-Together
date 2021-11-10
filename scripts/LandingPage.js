@@ -16,6 +16,7 @@ function updatePage(pageState, name, drawingObj) {
         nextPageBtn.innerHTML = "Join Activity";
         nextPageBtn.onclick = function() { window.location.href='prompt.html'; };
     } else if(pageState === 2 || pageState === "2") {
+        if(drawingObj === "") throw console.error("Failed to get drawing");
         logoutBtn.style.display = "initial";
         hello.style.display = "initial";
         hello.innerHTML = `Hello <strong>${name}!</strong>`;
@@ -43,7 +44,10 @@ async function getPageState() {
     if(result.status === "err") {
         console.log("Failed to retrieve state of page");
     } else {
-        updatePage(result.state, result.name, JSON.parse(result.drawing));
+        let userDrawing;
+        if(result.drawing === "") userDrawing = "";
+        else userDrawing = JSON.parse(result.drawing);
+        updatePage(result.state, result.name, userDrawing);
     }
 }
 

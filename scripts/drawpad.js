@@ -12,8 +12,12 @@ todo:
     // i.e. localise all these variables (this is seriously bad XD)
 // canvas
 let drawing;
-const canvasWidth = document.getElementById('pad-frame').offsetWidth - 9;
-const canvasHeight = document.getElementById('pad-frame').offsetHeight - 9;
+let canDraw = true;
+const canvasWidth = $(window).height() * 17 / 20;
+const canvasHeight = $(window).height() * 17 / 20;
+document.getElementById('pad-frame').style.width = `${canvasHeight - 1}px`;
+document.getElementById('pad-frame').style.height = `${canvasHeight - 1}px`;
+document.getElementById('btn-flex-container').style.height = `${canvasHeight * 4/5}px`;
 
 // history <- used for undo
 let history;
@@ -91,24 +95,24 @@ let undoClicked = false;
 let backgroundChangeClicked = false;
 let saveClicked = false;
 
-const brushButton = document.getElementById('brush-button');
-const eraserButton = document.getElementById('eraser-button');
-const bgButton = document.getElementById('background-button');
+const brushButton = document.getElementById('pencil');
+const eraserButton = document.getElementById('eraser');
+const bgButton = document.getElementById('bg-btn');
 
 function brushButtonEvent() {
     brush.type = BrushType.Brush;
     brush.size = 10;
 
-    brushButton.style.marginLeft = '0';
-    eraserButton.style.marginLeft = 'auto';
+    brushButton.style.alignSelf = 'center';
+    eraserButton.style.alignSelf = 'flex-end';
 }
 
 function eraserButtonEvent() {
     brush.type = BrushType.Eraser;
     brush.size = 30;
 
-    brushButton.style.marginLeft = 'auto';
-    eraserButton.style.marginLeft = '0';
+    brushButton.style.alignSelf = 'flex-end';
+    eraserButton.style.alignSelf = 'center';
 }
 
 function undoButtonEvent() {
@@ -117,11 +121,14 @@ function undoButtonEvent() {
 
 function bgButtonEvent() {
     // move this code, it should be occur in this script
-    let backgroundColoursStyle = document.getElementById("background-colours").style;
-    if(backgroundColoursStyle.display == "none" || backgroundColoursStyle.display == "") {
-        backgroundColoursStyle.display = "inline-block";
+    const bgColours = document.getElementById('background-colours');
+    const bgBackdrop = document.getElementById('colour-backdrop');
+    if(bgColours.style.display == "none" || bgColours.style.display == "") {
+        bgColours.style.display = "inline-block";
+        bgBackdrop.style.display = "initial";
     } else {
-        backgroundColoursStyle.display = "none";
+        bgColours.style.display = "none";
+        bgBackdrop.style.display = "none";
     }
 }
 
@@ -134,9 +141,8 @@ function colourChange(newColInd) {
     }
 }
 
-async function finishButtonEvent() {
+async function finishConfirmed() {
     if(!drawingAsString) {
-        // button should be grey here
         console.log("No lines drawn");
         return;
     } else if (currUID === null) {
@@ -258,6 +264,7 @@ function drawpad(p) {
         brushTypeAdjustments();
         p.background(bgCol);
         p.image(drawing, 0, 0);
+        if(!canDraw) return;
         if(p.mouseIsPressed && p.mouseButton == p.LEFT) {
             drawing.strokeWeight(brush.size);
             drawing.line(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
@@ -326,9 +333,25 @@ function drawpad(p) {
             incHistory = false;
 
             saveDrawing();
+
+            const finishBtn = document.getElementsByClassName('finish-btn')[0];
+            if(finishBtn.id === "") {
+                finishBtn.onclick = function() { finishClicked(); };
+                finishBtn.setAttribute("id", "finishOverride");
+            }
         }
     }
 }
 
 // the linter is wrong
 new p5(drawpad, 'pad-frame');
+
+function finishClicked() {
+    document.getElementById('finish-confirmation').style.display = 'flex';
+    canDraw = false;
+}
+
+function finishCancelled() {
+    document.getElementById('finish-confirmation').style.display = 'none';
+    canDraw = true;
+}
