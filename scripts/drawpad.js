@@ -219,6 +219,7 @@ function drawpad(p) {
         historySetup();
     }
 
+    // todo: can undo without having drawng, this changes the colour button
     function undo() {
         let canUndo = history.undo();
         if(canUndo) {

@@ -13,7 +13,6 @@ todo:
     - iPad touch screen panning doesn't work for onmousedown / mouse move
     - users piece animates in (and offsets the jigsaw)
     - zoom in & zoom out animation
-    - store JSONObj as opposed to DOM element
 */
 
 const jigsawTemplatePath = '../assets/jigsaw/jigsaw_pieces/';
@@ -22,43 +21,45 @@ let drawings = [];
 const minWidth = 110;
 const minHeight = 110;
 
-// todo: jigsaw placement algorithm
 function createDOMElements() {
-    for(let i = 1; i < jigsaw.size; i++) {
+    for(let i = 1; i < drawings.length + question + buffer; i++) {
         const piece = document.createElement('div');
         piece.className += "jigsaw-piece";
         
         let col = 'blk';
-        let name = '';
-        if(i > prompt) {
-            const drawing = document.createElement('img');
+        const drawing = document.createElement('img');
+        if(i > question) {
             drawing.className += "drawing";
-            drawing.src = drawings[i - prompt - 1].drawStr;
-            drawing.onclick = function() { drawingClicked(i); };
+            drawing.src = drawings[i - question - 1].drawStr;
             drawing.setAttribute('draggable', false);
             piece.appendChild(drawing);
             
-            col = drawings[i - prompt - 1].col;
-            name = drawings[i - prompt - 1].name;
+            col = drawings[i - question - 1].col;
         }
 
         const template = document.createElement('img');
         template.className += "template";
         template.src = jigsawTemplatePath + `${col}.svg`;
         template.setAttribute('draggable', false);
-        if(i > prompt) template.onclick = function() { drawingClicked(i); };
         piece.appendChild(template);
 
-        jigsaw.addToGrid(i, {dom: piece, name: name});
-        document.getElementById('jigsaw').appendChild(piece);
+        if(i > question) {
+            const pos = jigsaw.addToGrid({dom: piece, obj: drawings[i - question - 1]});
+            drawing.onclick = function() { drawingClicked(pos); };
+            template.onclick = function() { drawingClicked(pos); };
+        } else {
+            jigsaw.addToGrid({dom: piece, obj: null});
+        }
+        document.getElementById('jigsaw-content').appendChild(piece);
     }
 }
 
 // todo: fix puzzle piece gaps (little slithers of white)
     // fix puzzle piece sizing and ratio
 function positionPieces(width, height) {
-    for(let i = 1; i < jigsaw.size; i++) {
-        const piece = jigsaw.grid[i].dom;
+    for(let i = 1; i < jigsaw.grid.length; i++) {
+        if(jigsaw.grid[i] === null) continue;
+        const piece = jigsaw.getDOM(i);
         const xOffset = parseInt(width / 10, 10);
         const yOffset = parseInt(height/ 10, 10);
 
@@ -77,20 +78,21 @@ function positionPieces(width, height) {
         piece.style.top = `${(x * height)}px`;
         piece.style.left = `${(y * width)}px`;
         
-        if(i > prompt) {
-            // drawing
-            piece.childNodes[0].style.width = `${width - xOffset}px`;
-            piece.childNodes[0].style.height = `${height - yOffset}px`;
-            piece.childNodes[0].style.top = `${xOffset}px`;
-            piece.childNodes[0].style.left = `${yOffset}px`;
+        if(i > question) {
+            const drawingStyle = piece.childNodes[0].style;
+            drawingStyle.width = `${width - xOffset}px`;
+            drawingStyle.height = `${height - yOffset}px`;
+            drawingStyle.top = `${xOffset}px`;
+            drawingStyle.left = `${yOffset}px`;
 
-            // piece template
-            piece.childNodes[1].style.width = `${width + xOffset}px`;
-            piece.childNodes[1].style.height = `${height + yOffset}px`;
+            const templateStyle = piece.childNodes[1].style;
+            templateStyle.width = `${width + xOffset}px`;
+            templateStyle.height = `${height + yOffset}px`;
         } else {
             // piece template
-            piece.childNodes[0].style.width = `${width + xOffset}px`;
-            piece.childNodes[0].style.height = `${height + yOffset}px`;
+            const templateStyle = piece.childNodes[0].style;
+            templateStyle.width = `${width + xOffset}px`;
+            templateStyle.height = `${height + yOffset}px`;
         }
         
     }
@@ -100,7 +102,7 @@ function createGrid() {
     const width = minWidth;
     const height = minHeight;
 
-    jigsaw = new JigsawGrid(drawings.length);
+    jigsaw = new JigsawGrid();
     createDOMElements();
     positionPieces(width, height);
     document.body.removeChild(document.getElementById('loading'));
@@ -119,7 +121,7 @@ async function getDrawings() {
             "Content-Type": "application/json"
         }
     };
-    // todo: standardise these calls
+    
     const serverContact = await fetch('/drawings', options);
     const result = await serverContact.json();
     drawings.push(...result);
@@ -127,8 +129,8 @@ async function getDrawings() {
 }
 
 
+getDrawings().catch((err) => console.log(err));
 
-getDrawings();
 
 
 
@@ -159,10 +161,10 @@ let startX = 0;
 let startY = 0;
 let lastX, lastY;
 const delta = 6;
-const jigsawElement = document.getElementById('jigsaw');
+const jigsawElement = document.getElementById('jigsaw-content');
 
 document.addEventListener('mousedown', function(ev) {
-    if(document.getElementById('all-drawings').style.display === 'none') return;
+    if(document.getElementById('jigsaw-display').style.display === 'none') return;
 
     clicked = true;
     moved = false;
@@ -178,7 +180,7 @@ document.addEventListener('mousemove', function(ev) {
         // constrain panning height and width
         const topDiff = ev.clientY - lastY;
         const newTop = jigsawElement.offsetTop + topDiff;
-        let topOffset = (jigsaw.ring(jigsaw.size - 1) - 1) * parseInt(jigsaw.grid[1].dom.style.height);
+        let topOffset = (jigsaw.ring(jigsaw.size - 1) - 1) * parseInt(jigsaw.getDOM(1).style.height);
         if((newTop >= -topOffset && newTop <= document.documentElement.clientHeight + topOffset)
             || (newTop < -topOffset && topDiff > 0)
             || (newTop > document.documentElement.clientHeight + topOffset && topDiff < 0))
@@ -188,7 +190,7 @@ document.addEventListener('mousemove', function(ev) {
 
         const leftDiff = ev.clientX - lastX;
         const newLeft = jigsawElement.offsetLeft + leftDiff;
-        const leftOffset = (jigsaw.ring(jigsaw.size - 1) - 1) * parseInt(jigsaw.grid[1].dom.style.width);
+        const leftOffset = (jigsaw.ring(jigsaw.size - 1) - 1) * parseInt(jigsaw.getDOM(1).style.width);
         if((newLeft >= -leftOffset && newLeft <= document.documentElement.clientWidth + leftOffset)
             || (newLeft < -leftOffset && leftDiff > 0)
             || (newLeft > document.documentElement.clientWidth + leftOffset && leftDiff < 0))
@@ -212,61 +214,67 @@ function drawingClicked(d) {
 
     switchPage(1, d);
 }
+
 // todo: this is TERRIBLE, change it to local storage or something of that nature
     // not some random floating variable
-// todo: these magic numbers are horrific
 let currDrawing;
-
 function changeCurrentDrawing(d) {
+    // todo: account for gap in jigsaw
     let newDrawing = currDrawing + d;
-    if(newDrawing <= prompt) {
+    if(newDrawing <= question) {
         newDrawing = jigsaw.size - 1;
     } else if(newDrawing >= jigsaw.size) {
-        newDrawing = prompt + 1;
+        newDrawing = question + 1;
     }
     switchPage(1, newDrawing);
 }
 
-// todo: this is scuffed
 function switchPage(state, d) {
+    const jigsawDisplayStyle = document.getElementById('jigsaw-display').style;
+    const drawingDisplayStyle = document.getElementById('drawing-display').style;
+
     if(state === 1) {
-        document.getElementById('all-drawings').style.display = 'none';
-        document.getElementById('individual-drawing').style.display = 'initial';
-        const piece = jigsaw.grid[d].dom;
-        console.log();
+        jigsawDisplayStyle.display = 'none';
+        drawingDisplayStyle.display = 'initial';
+
         currDrawing = d;
-        let backdropCol = Math.floor(drawings[d - prompt - 1].col / 3);
-        document.getElementById('one-drawing-backdrop').src = `../assets/jigsaw/jigsaw_pieces/backdrop-${backdropCol}.svg`;
-        document.getElementById('one-drawing-template').src = piece.childNodes[1].src;
-        document.getElementById('one-drawing').src = piece.childNodes[0].src;
-        document.getElementById('child-name').innerHTML = jigsaw.grid[d].name;
-        document.getElementById('save').href = piece.childNodes[0].src;
-        document.getElementById('save').download = jigsaw.grid[d].name + "'s drawing";
+        const pieceDOM = jigsaw.getDOM(d);
+        const pieceOBJ = jigsaw.getOBJ(d);
+
+        // todo: this magic number went to the market
+        document.getElementById('current-drawing-backdrop').src = `${jigsawTemplatePath}backdrop-${Math.floor(pieceOBJ.col / 3)}.svg`;
+        document.getElementById('current-drawing-template').src = pieceDOM.childNodes[1].src;
+        document.getElementById('current-drawing').src = pieceDOM.childNodes[0].src;
+        document.getElementById('child-name').innerHTML = pieceOBJ.name;
+        document.getElementById('save').href = pieceDOM.childNodes[0].src;
+        document.getElementById('save').download = `${pieceOBJ.name}'s drawing'`;
     } else {
-        document.getElementById('all-drawings').style.display = 'initial';
-        document.getElementById('individual-drawing').style.display = 'none';
+        jigsawDisplayStyle.display = 'initial';
+        drawingDisplayStyle.display = 'none';
     }
 }
 
-// todo: shift jigsaw position when zooming
-    // or add to future that middle of screen stays consistent with resize
 let zoomState = false;
 function switchZoom() {
+    const pcStyle = document.getElementById('question-content').style;
+    const weekStyle = document.getElementById('week').style;
+    const questionStyle = document.getElementById('question').style;
+    const zoomText = document.getElementById('zoom-text');
     if(!zoomState) {
         positionPieces(300, 300);
-        document.getElementById('prompt-content').style.width = '450px';
-        document.getElementById('prompt-content').style.height = '450px';
-        document.getElementById('week').style.fontSize = "45px";
-        document.getElementById('prompt').style.fontSize = "70px";
-        document.getElementById('zoom-text').innerHTML = "Zoom Out";
+        pcStyle.width = '450px';
+        pcStyle.height = '450px';
+        weekStyle.fontSize = "45px";
+        questionStyle.fontSize = "70px";
+        zoomText.innerHTML = "Zoom Out";
         zoomState = true;
     } else {
         positionPieces(minWidth, minHeight);
-        document.getElementById('prompt-content').style.width = '180px';
-        document.getElementById('prompt-content').style.height = '180px';
-        document.getElementById('week').style.fontSize = "18px";
-        document.getElementById('prompt').style.fontSize = "28px";
-        document.getElementById('zoom-text').innerHTML = "Zoom In";
+        pcStyle.width = '180px';
+        pcStyle.height = '180px';
+        weekStyle.fontSize = "18px";
+        questionStyle.fontSize = "28px";
+        zoomText.innerHTML = "Zoom In";
         zoomState = false;
     }
 }

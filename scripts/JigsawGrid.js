@@ -1,14 +1,11 @@
 /*
 todo:
     - error checking
-    - methods may not need to be static
-    - try to refactor out magic numbers
-    - check where returning should be - 1 for array index
-    - add get piece method (so code is cleaner)
 */
 
-// first four puzzle pieces reserved for prompts
-const prompt = 4;
+// first four puzzle pieces reserved for question pieces
+const question = 4;
+const buffer = 1;
 
 const Direction = {
     UP: 0,
@@ -18,13 +15,17 @@ const Direction = {
 };
 
 class JigsawGrid {
-    constructor(size) {
-        // +1 because arithmetic on a grid indexing from 1 is much simpler than indexing from 0
-        this.size = size + prompt + 1;
+    constructor() {
+        this.size = 0;
         this.grid = [];
 
-        // does not fill with null values
-        this.grid.length += this.size;
+        // +1 because arithmetic on a grid indexing from 1 is much simpler than indexing from 0
+        this.grid.length += question + buffer;
+        // += length does not fill with null values
+        for(let i = 0; i < this.grid.length; i++) {
+            this.grid[i] = null;
+        }
+        this.addRing();
     }
 
     // finds next largest even square number >= a number
@@ -51,8 +52,6 @@ class JigsawGrid {
         return i**2 + 1;
     }
 
-    // --- helper functions ---
-
     ring(n) {
         return (Math.sqrt(this.ringMax(n)) - 2) / 2;
     }
@@ -60,7 +59,7 @@ class JigsawGrid {
     // returns side of the ring a number is on
         // note, numbers in corners are on multiple sides
         // side is selected to make quadrants even
-    quadrant(n) {        
+    quadrant(n) {
         for(let i = 0; i < Object.keys(Direction).length; i++) {
             if(n >= this.quadMin(n, i) && n < this.quadMax(n, i)) {
                 return i;
@@ -71,7 +70,7 @@ class JigsawGrid {
     }
 
     quadSize(n) {
-        return 2 * (this.ring(n) + 1);
+        return 2 * (this.ring(n) + buffer);
     }
 
     quadMin(n, d) {
@@ -118,7 +117,6 @@ class JigsawGrid {
 
     // returns the array position of the grid position in a direction from a point
     gridPosInDir(n, d) {
-        // todo: this was done without thought, check to see what should be returned here
         if(n === 0) return n;
 
         const ringInc = this.ring(n) + 1;
@@ -191,9 +189,62 @@ class JigsawGrid {
         
     }
 
-    addToGrid(n, content) {
-        this.grid[n] = content;
+    addRing() {
+        const newLength = this.ringMax(this.size + question + buffer);
+        const store = this.grid.length;
+        this.grid.length += newLength - this.grid.length + buffer;
+        for(let i = store; i < this.grid.length; i++) {
+            this.grid[i] = null;
+        }
     }
 
+    addToGrid(drawing) {
+        this.size++;
+        if(this.size >= this.grid.length) this.addRing()
+        if(drawing.obj === null) {
+            this.grid[this.size] = drawing;
+            return null;
+        }
 
+
+        let currTotal = 0;
+        let bestTotal = 0;
+        let bestPos = -1;
+
+        for(let i = this.ringMin(this.size); i <= this.ringMax(this.size); i++) {
+            if(this.grid[i] !== null) continue;
+            currTotal = 0;
+            // check pieces in each direction
+            for(const dir in Object.values(Direction)) {
+                const val = this.gridPosInDir(i, parseInt(dir));
+                if(val >= this.grid.length) continue;
+                // if piece exists
+                if(this.grid[val] !== null) {
+                    // if adjacent piece is a centre piece
+                    if(this.grid[val].obj === null) currTotal += 0.5;
+                    // if adjacent piece shares same main colour
+                    else if(Math.floor(drawing.obj.col/3) === Math.floor(this.grid[val].obj.col / 3)) currTotal += 4;
+                    // if adjacent piece exists of different colour
+                    else currTotal += 1;
+                }
+            }
+
+            if(currTotal > bestTotal) {
+                bestTotal = currTotal;
+                bestPos = i;
+            }
+        }
+
+        if(bestPos < 0) throw Error;
+        this.grid[bestPos] = drawing;
+        return bestPos;
+    }
+
+    getDOM(n) {
+        return this.grid[n].dom;
+    }
+
+    getOBJ(n) {
+        if(n > question) return this.grid[n].obj;
+    }
 }

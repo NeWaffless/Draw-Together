@@ -1,7 +1,5 @@
 /* 
 todo:
-    - make prompt-content flexible base on jigsaw piece width / height
-    - active clicked button styling
     - align individual drawing elements (to look nice)
         - probably adjust the puzzle piece position
 */
@@ -188,17 +186,13 @@ body {
     opacity: 80%;
 }
 
-#zoom:active {
-    background-color: black;
-}
-
 #zoom-icon {
     margin-right: 16px;
     width: 20px;
     height: 20px;
 }
 
-#prompt-content {
+#question-content {
     position: absolute;
     width: 180px;
     height: 180px;
@@ -218,7 +212,7 @@ body {
     top: 20%;
 }
 
-#prompt {
+#question {
     color: #FFFFFF;
     font-size: 28px;
     margin: 0;
@@ -226,7 +220,7 @@ body {
     bottom: 1.8%;
 }
 
-#jigsaw {
+#jigsaw-content {
     width: 0;
     height: 0;
     position: absolute;
@@ -255,7 +249,7 @@ body {
     z-index: 1;
 }
 
-#individual-drawing {
+#drawing-display {
     display: none;
 }
 
@@ -276,7 +270,7 @@ body {
     transform: rotate(180deg);
 }
 
-#individual-drawing-content {
+#drawing-display-content {
     width: 60%;
     height: 80%;
     position: absolute;
@@ -298,7 +292,7 @@ body {
     margin: 0;
 }
 
-#one-drawing-wrapper {
+#current-drawing-wrapper {
     height: 80%;
     width: 100%;
     display: flex;
@@ -306,20 +300,20 @@ body {
     align-items: center;
 }
 
-#one-drawing-template {
+#current-drawing-template {
     position: absolute;
     height: 60%;
     z-index: -1;
 }
 
-#one-drawing-backdrop {
+#current-drawing-backdrop {
     position: absolute;
     height: 60%;
     transform: translateY(6%);
     z-index: -2;
 }
 
-#one-drawing {
+#current-drawing {
     position: absolute;
     height: 50%;
     z-index: 0;
