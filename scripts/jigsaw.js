@@ -13,6 +13,7 @@ todo:
     - iPad touch screen panning doesn't work for onmousedown / mouse move
     - users piece animates in (and offsets the jigsaw)
     - zoom in & zoom out animation
+    - store JSONObj as opposed to DOM element
 */
 
 const jigsawTemplatePath = '../assets/jigsaw/jigsaw_pieces/';
@@ -226,12 +227,16 @@ function changeCurrentDrawing(d) {
     switchPage(1, newDrawing);
 }
 
+// todo: this is scuffed
 function switchPage(state, d) {
     if(state === 1) {
         document.getElementById('all-drawings').style.display = 'none';
         document.getElementById('individual-drawing').style.display = 'initial';
         const piece = jigsaw.grid[d].dom;
+        console.log();
         currDrawing = d;
+        let backdropCol = Math.floor(drawings[d - prompt - 1].col / 3);
+        document.getElementById('one-drawing-backdrop').src = `../assets/jigsaw/jigsaw_pieces/backdrop-${backdropCol}.svg`;
         document.getElementById('one-drawing-template').src = piece.childNodes[1].src;
         document.getElementById('one-drawing').src = piece.childNodes[0].src;
         document.getElementById('child-name').innerHTML = jigsaw.grid[d].name;

@@ -26,6 +26,7 @@ function updatePage(pageState, name, drawingObj) {
         document.getElementById('drawing-container').style.display = 'flex';
         document.getElementById('drawing').src = drawingObj.drawStr;
         document.getElementById('drawing-template').src = `../assets/jigsaw/jigsaw_pieces/${drawingObj.col}.svg`;
+        document.getElementById('drawing-backdrop').src = `../assets/jigsaw/jigsaw_pieces/backdrop-${Math.floor(drawingObj.col / 3)}.svg`;
         nextPageBtn.innerHTML = "See Jigsaw";
         nextPageBtn.onclick = function() { window.location.href='jigsaw.html'; };
     }

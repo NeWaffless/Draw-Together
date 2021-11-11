@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
     <link rel="shortcut icon" type="image/svg" href="/assets/logo-icon.svg"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope">
     <link rel="stylesheet" href="../styling/landing-page_styling.css">
 </head>
 
@@ -19,7 +20,7 @@ todo:
     <div id="logout" onclick="logoutClicked()">
         <img src="../assets/landing_page/logout.svg" alt="Logout icon" id="logout-icon">  <strong>Log Out</strong>
     </div>
-    <img src="../assets/logo.svg" alt="Draw together logo" id="logo">
+    <img src="../assets/logo.svg" alt="Draw together logo" id="logo" draggable="false">
 
     <div id="logout-confirmation">
         <div id="logout-confirmation-box">
@@ -38,8 +39,9 @@ todo:
         <div id="drawing-container">
             <p id="drawing-text">This is your drawing</p>
             <div id="drawing-content">
-                <img id="drawing-template" src="" alt="Your drawing template">
-                <img id="drawing" src="" alt="Your drawing">
+                <img id="drawing-backdrop" src="" alt="Your drawing backdrop" draggable="false">
+                <img id="drawing-template" src="" alt="Your drawing template" draggable="false">
+                <img id="drawing" src="" alt="Your drawing" draggable="false">
             </div>
         </div>
         
@@ -52,9 +54,9 @@ todo:
     </main>
 
     <div id="bg">
-            <img class="bg-piece" id="piece-1" src="../assets/landing_page/piece-1.svg" alt="Puzzle piece in background">
-            <img class="bg-piece" id="piece-2" src="../assets/landing_page/piece-2.svg" alt="Puzzle piece in background">
-            <img class="bg-piece" id="piece-3" src="../assets/landing_page/piece-3.svg" alt="Puzzle piece in background">
+            <img class="bg-piece" id="piece-1" src="../assets/landing_page/piece-1.svg" alt="Puzzle piece in background" draggable="false">
+            <img class="bg-piece" id="piece-2" src="../assets/landing_page/piece-2.svg" alt="Puzzle piece in background" draggable="false">
+            <img class="bg-piece" id="piece-3" src="../assets/landing_page/piece-3.svg" alt="Puzzle piece in background" draggable="false">
     </div>
 
     <script src="../scripts/LandingPage.js"></script>

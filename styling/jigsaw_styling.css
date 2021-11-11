@@ -7,7 +7,7 @@ todo:
 */
 
 * {
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Manrope;
 }
 
 /* 
@@ -39,8 +39,8 @@ body {
 #logout {
     background-color: #FAF4F4;
     color: #353641;
-    font-weight: bold;
     font-size: 24px;
+    font-weight: 600;
     padding: 15px 50px 15px 50px;
     border-radius: 100px;
     border-style: solid;
@@ -171,9 +171,9 @@ body {
 
 #zoom-text, #save {
     color: #FAF4F4;
-    font-weight: medium;
-    font-size: 20px;
-    letter-spacing: 2px;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 3px;
     text-align: center;
     text-decoration: none;
 }
@@ -194,8 +194,8 @@ body {
 
 #zoom-icon {
     margin-right: 16px;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
 }
 
 #prompt-content {
@@ -288,6 +288,10 @@ body {
     align-items: center;
 }
 
+#drawn-by {
+    font-size: 20px;
+}
+
 #child-name {
     font-weight: bold;
     font-size: xx-large;
@@ -306,6 +310,13 @@ body {
     position: absolute;
     height: 60%;
     z-index: -1;
+}
+
+#one-drawing-backdrop {
+    position: absolute;
+    height: 60%;
+    transform: translateY(6%);
+    z-index: -2;
 }
 
 #one-drawing {

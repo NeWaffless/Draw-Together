@@ -6,7 +6,7 @@ todo:
 
 
 * {
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Manrope;
 }
 
 html {
@@ -119,22 +119,28 @@ main {
 }
 
 #drawing-content {
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
 }
 
-#drawing-template, #drawing {
+#drawing-backdrop, #drawing-template, #drawing {
     position: absolute;
+}
+
+#drawing-backdrop {
+    z-index: -2;
+    width: 100%;
+    transform: translateY(6%);
 }
 
 /* todo: drawing size based on screen size */
 #drawing-template {
     z-index: -1;
-    width: 90%;
+    width: 100%;
 }
 
 #drawing {
-    width: 70%;
+    width: 80%;
     transform: translate(11%, 11%);
 }
 

@@ -9,7 +9,7 @@ todo:
 
 
 * {
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Manrope;
 }
 
 body {
@@ -45,13 +45,13 @@ main {
 }
 
 #top-text {
-    font-size: 200%;
+    font-size: 38px;
     margin: 0;
     padding: 0;
 }
 
 #instructions {
-    font-size: 150%;
+    font-size: 24px;
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
@@ -76,9 +76,9 @@ main {
 }
 
 #uid::placeholder {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 600;
-    letter-spacing: normal;
+    letter-spacing: 2px;
 }
 
 #uid-submit {

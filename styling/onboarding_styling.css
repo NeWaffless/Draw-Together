@@ -8,7 +8,7 @@ todo:
 
 
 * {
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Manrope;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -41,7 +41,7 @@ main {
 }
 
 #main-text {
-    font-size: 150%;
+    font-size: 24px;
     padding-bottom: 20px;
     margin-bottom: 20px;
     width: 50%;
