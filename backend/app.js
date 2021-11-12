@@ -27,8 +27,7 @@ app.use(express.json({limit: '1mb'}));
 const db = new Datastore('database.db');
 db.loadDatabase();
 
-// todo: insert Keagan Parker
-// db.insert({uid: "uid", fname: "first name", sname: "surname"});
+// db.insert({uid: "uid", fname: "first name", sname: "surname"}); 
 
 const imgFolder = './user_imgs/';
 const uidPath = 'curr_uid.json';
