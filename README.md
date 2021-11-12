@@ -5,7 +5,7 @@
 Draw Together is a set of companion applications designed as an in class activity for primary students with speech and/or language disorders. This GitHub repository is a high-fidelity, functional prototype of the student application interface. The intention of this prototype is to mimic the functionality and interface of the envisioned final design solution in a short time frame. Draw Together is designed for iPad and other touchscreen devices that can be found in primary school learning environments, and as such, some CSS styling may seem weird if used on a standard 1920 x 1080 monitor.
 
 ## Draw Together video
-[![Video description of project]((https://user-images.githubusercontent.com/75866732/141434747-e02d9a21-b95b-4e86-89cd-a8105ff9978e.PNG))](https://youtu.be/D4OKyW6xh2g "Draw Together video description")
+[![Video description of project](https://user-images.githubusercontent.com/75866732/141434747-e02d9a21-b95b-4e86-89cd-a8105ff9978e.PNG)](https://youtu.be/D4OKyW6xh2g "Draw Together video description")
 
 This project was designed and developed as the final project for DECO3200, at the University of Sydney.
 
