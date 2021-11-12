@@ -153,7 +153,7 @@ class JigsawGrid {
         // case going from max to min
         if(n === this.ringMax(n) && (d === Direction.UP || d === Direction.RIGHT)) {
             if(d === Direction.UP) return (Math.sqrt(n) - 2) ** 2 + 1;
-            return n - Math.abs(16 * this.ring(n) -1);
+            return n - Math.abs(16 * this.ring(n) - 1);
 
         // case going from min to max
         } else if(n === this.ringMin(n) && (d === Direction.DOWN || d === Direction.LEFT)) {
@@ -238,6 +238,10 @@ class JigsawGrid {
         if(bestPos < 0) throw Error;
         this.grid[bestPos] = drawing;
         return bestPos;
+    }
+
+    getPiece(n) {
+        return this.grid[n];
     }
 
     getDOM(n) {

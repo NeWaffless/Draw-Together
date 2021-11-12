@@ -218,14 +218,24 @@ function drawingClicked(d) {
 // todo: this is TERRIBLE, change it to local storage or something of that nature
     // not some random floating variable
 let currDrawing;
-function changeCurrentDrawing(d) {
-    // todo: account for gap in jigsaw
+function changeCurrentDrawing(d) {    
     let newDrawing = currDrawing + d;
     if(newDrawing <= question) {
-        newDrawing = jigsaw.size - 1;
-    } else if(newDrawing >= jigsaw.size) {
-        newDrawing = question + 1;
+        newDrawing = jigsaw.grid.length - 1;
+    } else if(newDrawing > jigsaw.grid.length - 1) {
+        newDrawing = question + buffer;
     }
+
+    // todo: account for gaps in the jigsaw
+    while(jigsaw.getPiece(newDrawing) === null) {
+        newDrawing = newDrawing + d;
+        if(newDrawing <= question) {
+            newDrawing = jigsaw.grid.length - 1;
+        } else if(newDrawing > jigsaw.grid.length - 1) {
+            newDrawing = question + buffer;
+        }
+    }
+
     switchPage(1, newDrawing);
 }
 
