@@ -19,9 +19,9 @@ For more detailed set-up instructions, please read the .pdf in the repo labelled
 ## Figma links
 Below are links to the visual design of the student and teacher interfaces in Figma:
 
-Student interface ~ https://www.figma.com/proto/NSD7xuFUmIPuDkk5XroOUU/narwhal-Assessment-3?page-id=0%3A1&node-id=8%3A12280&viewport=241%2C48%2C0.08&scaling=scale-down&starting-point-node-id=10%3A12172&show-proto-sidebar=1
+[Student interface](https://www.figma.com/proto/NSD7xuFUmIPuDkk5XroOUU/narwhal-Assessment-3?page-id=0%3A1&node-id=8%3A12280&viewport=241%2C48%2C0.08&scaling=scale-down&starting-point-node-id=10%3A12172&show-proto-sidebar=1)
 
-Teacher interface ~ https://www.figma.com/proto/NSD7xuFUmIPuDkk5XroOUU/narwhal-Assessment-3?page-id=2%3A2&node-id=160%3A15076&viewport=241%2C48%2C0.02&scaling=scale-down&starting-point-node-id=36%3A12176&show-proto-sidebar=1
+[Teacher interface](https://www.figma.com/proto/NSD7xuFUmIPuDkk5XroOUU/narwhal-Assessment-3?page-id=2%3A2&node-id=160%3A15076&viewport=241%2C48%2C0.02&scaling=scale-down&starting-point-node-id=36%3A12176&show-proto-sidebar=1)
 
 ## Designed by
 - Aidan Walbran
