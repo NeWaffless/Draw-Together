@@ -6,8 +6,11 @@ Draw Together is a social drawing application designed for use as an inclass act
 
 ## Designed by
 Aidan Walbran
+
 Raveen Jayawardene
+
 Noah Pham Van
+
 Wilfred Wong
 
 ## Programmed by
