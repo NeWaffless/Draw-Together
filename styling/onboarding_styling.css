@@ -1,12 +1,3 @@
-/*
-todo:
-- have the content in the middle of the screen stay fairly still
-    - Image size does not shift around the progress bar
-- maybe make progress bar positioned absolutely
-*/
-
-
-
 * {
     font-family: Manrope;
     -webkit-user-select: none;

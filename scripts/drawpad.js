@@ -1,15 +1,3 @@
-/*
-todo:
-- refactor this shit
-- maybe organise requests into files
-- get it working with touch screen input (so that ipad mode works in chrome)
-- wait for user call before allowing more button input
-- potential browser / server error (something stalls the server processing)
-*/
-
-
-// todo: determine whether variables should be global or not!!
-    // i.e. localise all these variables (this is seriously bad XD)
 // canvas
 let drawing;
 let canDraw = true;
@@ -64,12 +52,10 @@ let brush = {
 // background
 let bgCol = [255, 255, 255, 255];
 let bgMainInd = 0;
-// todo: assign shaded version of colours to css
 let bgShadeInd = 0;
 let newBGInd = 0;
 
 
-// todo: update this server call
 let currUID = null;
 function getUID() {
     const options = {
@@ -136,7 +122,6 @@ function colourChange(newColInd) {
     if(newColInd != bgMainInd) {
         backgroundChangeClicked = true;
         newBGInd = newColInd;
-        // todo: possibly remove <- based on user testing
         bgButtonEvent();
     }
 }
@@ -176,12 +161,11 @@ async function finishConfirmed() {
 
 function drawpad(p) {
     function colToString(col) {
-        // return 'rgb(' + col[0].toString() + ',' + col[1].toString() + ',' + col[2].toString() + ')';
         return `rgb(${col[0].toString()},${col[1].toString()},${col[2].toString()})`;
     }
 
     function canvasSetup() {
-        p.createCanvas(canvasWidth , canvasHeight); // todo: preferably adjust to div
+        p.createCanvas(canvasWidth , canvasHeight);
         drawing = p.createGraphics(canvasWidth, canvasHeight);
 
         // pick colour randomly here
@@ -219,7 +203,6 @@ function drawpad(p) {
         historySetup();
     }
 
-    // todo: can undo without having drawng, this changes the colour button
     function undo() {
         let canUndo = history.undo();
         if(canUndo) {

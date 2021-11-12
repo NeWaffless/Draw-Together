@@ -1,8 +1,3 @@
-/*
-todo:
-    - error checking
-*/
-
 // first four puzzle pieces reserved for question pieces
 const question = 4;
 const buffer = 1;

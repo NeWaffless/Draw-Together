@@ -1,14 +1,9 @@
 const uidElement = document.getElementById('uid');
 const uidSubmit = document.getElementById('uid-submit');
 
-/*
-todo:
-- check if user is currently logged in
-    - run immediately upon start up
-    - this is in the case a user reaches this screen when they shouldn't
-- user feedback for bad input
-*/
 
+
+// checks if user id exists in database
 async function checkUID() {
     const uidToCheck = uidElement.value.toLowerCase();
     const data = {uid:uidToCheck};

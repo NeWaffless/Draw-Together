@@ -48,6 +48,7 @@
 
         // yes, there are magic numbers and hard coded page values
             // no, I'm not using an enum or changing these to be separate pages because it looks much cleaner like this
+            // also enums aren't natively supported by js
         function updatePage(inc) {
             onboardingPage += inc;
             if(onboardingPage < 0 || onboardingPage > mainText.length) {

@@ -1,14 +1,12 @@
-/*
-todo:
-- wait for logout confirmation before changing page
-*/
-
+// updates landing page based on the users current page state
+    // 0 = not logging in
+    // 1 = logged in, has not drawn
+    // 2 = logged in, has submitted drawing
 function updatePage(pageState, name, drawingObj) {
     const logoutBtn = document.getElementById('logout');
     const hello = document.getElementById('hello');
     const nextPageBtn = document.getElementById('next-page');
     
-    // todo: this could probably be done better
     if(pageState === 1 || pageState === "1") {
         logoutBtn.style.display = "initial";
         hello.style.display = "initial";
@@ -63,7 +61,6 @@ async function logoutConfirmed() {
     };
     
     fetch('/logout', options);
-    // todo: maybe this should not redirect?
     window.location.href = 'sign-in.html';
 }
 

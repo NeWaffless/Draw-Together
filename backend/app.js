@@ -4,22 +4,6 @@ const fs = require('fs');
 
 
 
-/*
-todo:
-  - change strings to formated strings
-  - rearrange functions to make logical order
-  - review how status' are sent through promises
-    - integers, and maybe status is returned as part of the promise alongside / as part of the response?
-  - optimise reading and writing files
-  - rename Datastore to db
-  - add Keagan Parker to db
-  - change deprecated existsSync with fs.stat or fs.access
-  - comment to explain sections of code & functions
-  - clean up calls
-*/
-
-
-
 const app = express();
 const port = 3000;
 app.use(express.json({limit: '1mb'}));
@@ -27,12 +11,14 @@ app.use(express.json({limit: '1mb'}));
 const db = new Datastore('database.db');
 db.loadDatabase();
 
+// insert statement to add users if needed (yes, this should be here)
 // db.insert({uid: "uid", fname: "first name", sname: "surname"}); 
 
 const imgFolder = './user_imgs/';
 const uidPath = 'curr_uid.json';
 
 
+// host application
 app.listen(port, () => {
   console.log(`Draw together app hosted at port localhost:${port}`);
 });
@@ -53,6 +39,7 @@ function hasDrawn(uid) {
   return fs.existsSync(imgFolder + uid + '.json');
 }
 
+// get the current state the landing page should be in based on user information
 app.get('/landing-page-state', (req, res) => {
   let data = {
     state: "0",
@@ -78,8 +65,8 @@ app.get('/landing-page-state', (req, res) => {
   res.send(data);
 });
 
+// user submits drawing
 app.post('/submit-drawing', (request, response) => {
-
   console.log('Drawing submission request from:  ' + request.body.uid);
   const data = request.body;
 
@@ -111,8 +98,7 @@ app.post('/submit-drawing', (request, response) => {
   }
 });
 
-// todo: change to something more meaningful
-app.get('/drawings', (request, response) => {
+app.get('/get-all-user-drawings', (request, response) => {
   console.log('\nRequest to receive images');
   let drawings = [];
   fs.readdirSync(imgFolder).forEach(file => {
@@ -162,6 +148,7 @@ app.get('/is-signed-in', (req, res) => {
   res.send(result);
 });
 
+// logs out user
 app.delete('/logout', (req, res) => {
   if(fs.existsSync(uidPath)) {
     fs.unlinkSync(uidPath);

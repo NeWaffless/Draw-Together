@@ -1,9 +1,3 @@
-/* 
-todo:
-    - align individual drawing elements (to look nice)
-        - probably adjust the puzzle piece position
-*/
-
 * {
     font-family: Manrope;
 }
@@ -181,7 +175,6 @@ body {
     top: 25%;
 }
 
-/* todo: change from opacity to colour */
 #zoom:hover, #save:hover {
     opacity: 80%;
 }

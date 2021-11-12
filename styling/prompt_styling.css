@@ -1,11 +1,3 @@
-/* 
-todo:
-- resize prompt fontsize for scaling
-- fish behind seaweed in full size prompt screen
-*/
-
-
-
 * {
     font-family: Manrope;
 }
@@ -31,7 +23,6 @@ body {
     transform: rotate(180deg);
 }
 
-/* todo: change width based on screen size */
 main {
     position: absolute;
     top: 50%;
@@ -101,7 +92,6 @@ main {
     right: 2%;
 }
 
-/* todo: this is a redundant container */
 #start-drawing-container {
     position: absolute;
     bottom: 15%;
