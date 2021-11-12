@@ -30,4 +30,4 @@ Teacher interface ~ https://www.figma.com/proto/NSD7xuFUmIPuDkk5XroOUU/narwhal-A
 - Wilfred Wong
 
 ## Programmed by
-Aidan Walbran
+- Aidan Walbran
