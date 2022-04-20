@@ -23,6 +23,9 @@ Below are links to the visual design of the student and teacher interfaces in Fi
 
 [Teacher interface](https://www.figma.com/proto/NSD7xuFUmIPuDkk5XroOUU/narwhal-Assessment-3?page-id=2%3A2&node-id=160%3A15076&viewport=241%2C48%2C0.02&scaling=scale-down&starting-point-node-id=36%3A12176&show-proto-sidebar=1)
 
+## More information
+See more of the project [here](https://newaffless.github.io/pages/draw-together.html).
+
 ## Designed by
 - Aidan Walbran
 - Noah Pham Van
