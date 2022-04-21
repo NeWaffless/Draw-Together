@@ -1,5 +1,5 @@
 # Draw Together
-![logo](https://user-images.githubusercontent.com/75866732/141431647-319cc607-4bb1-490d-8524-a47911c9695d.png)
+![draw-together-logo-padded](https://user-images.githubusercontent.com/75866732/164370619-39379e18-bebd-40cd-96a0-521849cbbd7b.png)
 
 
 Draw Together is a set of companion applications designed as an in class activity for primary students with speech and/or language disorders. This GitHub repository is a high-fidelity, functional prototype of the student application interface. The intention of this prototype is to mimic the functionality and interface of the envisioned final design solution in a short time frame. Draw Together is designed for iPad and other touchscreen devices that can be found in primary school learning environments, and as such, some CSS styling may seem weird if used on a standard 1920 x 1080 monitor.
